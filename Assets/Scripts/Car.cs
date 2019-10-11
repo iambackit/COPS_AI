@@ -16,23 +16,32 @@ public class Car : MonoBehaviour
     #region private
     private NeuralNetwork _NeuralNetwork;
     private DNA _DNA;
+    private bool _Initialized = false;
     #endregion
-
-    void Start()
-    {
-    }
-
-    void Update()
-    {
-        
-    }
 
     public void Initialize()
     {
         _NeuralNetwork = new NeuralNetwork();
-        WeightsOfAllLayer weights = _NeuralNetwork.WeightsOfAllLayer;
+        _DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
+        _Initialized = true;
     }
 
+    public void Initialize(DNA dna)
+    {
+        _NeuralNetwork = new NeuralNetwork(dna);
+        _DNA = dna;
+        _Initialized = true;
+    }
+
+    void Update()
+    {
+        if (_Initialized)
+        {
+            List<float> distances = GetComponent<LaserContainer>().GetDistances();
+            List<float> output = _NeuralNetwork.FeedForward(distances);
+            GetComponent<CarController>().Move(output);
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();

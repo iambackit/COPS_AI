@@ -12,23 +12,21 @@ public class CarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    void FixedUpdate()
+
+    public void Move(List<float> inputs)
     {
-        float h = 0;
         float v = 0;
-        if (Input.GetKey(KeyCode.UpArrow))
+        float h = 0;
+
+        if (inputs[0]*2 > 1f)
             v = 1;
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else
             v = -1;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            h = .8f;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            h=-.8f;
-        }
+        if (inputs[1]*2 > 1f)
+            h = 1;
+        else
+            h = -1;
 
         Vector2 speed = transform.up * (v * acceleration);
         rb.AddForce(speed);

@@ -23,19 +23,12 @@ public class AIManager : MonoBehaviour
     {
         for (int i = 0; i < Population; i++)
         {
-            GameObject gameObjectCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0,0,90));
+            GameObject gameObjectCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
             gameObjectCar.GetComponent<Car>().Initialize();
-
             _Cars.Add(gameObjectCar);
         }
 
         Debug.Log(_Generation++);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void DestroyCar(GameObject gameObject)
@@ -69,7 +62,17 @@ public class AIManager : MonoBehaviour
         _Cars.Clear();
         for (int i = 0;i<Population;i++)
         {
-            DNA carDNA;//Todo
+            DNA crossOvered = _First.CrossOver(_First, _Second);
+            crossOvered.Mutate();
+            GenerateCar(crossOvered);
         }
+    }
+
+
+    private void GenerateCar(DNA dna)
+    {
+        GameObject gameObjectCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
+        gameObjectCar.GetComponent<Car>().Initialize(dna);
+        _Cars.Add(gameObjectCar);
     }
 }
