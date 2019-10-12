@@ -39,6 +39,7 @@ public class Car : MonoBehaviour
         {
             List<float> distances = GetComponent<LaserContainer>().GetDistances();
             List<float> output = _NeuralNetwork.FeedForward(distances);
+
             GetComponent<CarController>().Move(output);
         }
     }

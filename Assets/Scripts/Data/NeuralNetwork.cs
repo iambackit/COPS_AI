@@ -16,7 +16,7 @@ namespace Assets.Scripts.Data
     class NeuralNetwork
     {
         #region public
-        public OutputOfNeuronsInAllLayer OutputOfNeuronsInAllLayer { get; }
+        public OutputOfNeuronsInAllLayer OutputOfNeuronsInAllLayer { get; set; }
         public WeightsOfAllLayer WeightsOfAllLayer { get; set; }
         #endregion
 
@@ -68,12 +68,9 @@ namespace Assets.Scripts.Data
 
         public List<float> FeedForward(List<float> distances)
         {
-            List<float> input = OutputOfNeuronsInAllLayer[0];
+            for (int i = 0; i < distances.Count; i++)
+                OutputOfNeuronsInAllLayer[0][i] = distances[i];
 
-            for (int i = 0;i< distances.Count;i++)
-            {
-                input[i] = distances[i];
-            }
 
             for (int indexOfLayer = 0; indexOfLayer < (OutputOfNeuronsInAllLayer.Count - 1); indexOfLayer++)
             {
@@ -102,6 +99,19 @@ namespace Assets.Scripts.Data
         {
             WeightsOfAllLayer = dna.WeightsOfAllLayer;
             OutputOfNeuronsInAllLayer = new OutputOfNeuronsInAllLayer();
+
+            for (int actualLayerIndex = 0; actualLayerIndex < _NumberOfLayers; actualLayerIndex++)
+            {
+                OutputOfNeuronsInSingleLayer outputOfNeuronsInSingleLayer = new OutputOfNeuronsInSingleLayer();
+                int actualLayerSize = GetActualLayerSize(actualLayerIndex);
+
+                for (int i = 0; i < actualLayerSize; i++)
+                {
+                    outputOfNeuronsInSingleLayer.Add(0);
+                }
+
+                OutputOfNeuronsInAllLayer.Add(outputOfNeuronsInSingleLayer);
+            }
         }
 
         private int GetActualLayerSize(int layerIndex)
