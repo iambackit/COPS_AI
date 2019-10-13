@@ -72,15 +72,16 @@ public class Car : MonoBehaviour
         {
             _Score++;
 
-            if (_NextScoreCollider == 8)
+            if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount+1)
                 _NextScoreCollider = 0;
             else
                 _NextScoreCollider++;
         }
+        else
+        {
+            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+            aiManager.DestroyCar(this.gameObject);
+        }
     }
 
-    //private static int SortByScore(GameObject o1, GameObject o2)
-    //{
-    //    return o1.GetComponent<Car>()._Score.CompareTo(o2.GetComponent<Car>()._Score);
-    //}
 }

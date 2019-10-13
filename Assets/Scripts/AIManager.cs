@@ -13,6 +13,7 @@ public class AIManager : MonoBehaviour
 
     #region private
     private List<GameObject> _Cars = new List<GameObject>();
+    private List<GameObject> _NewPopulation = new List<GameObject>();
 
     private DNA _First;
     private DNA _Second;
@@ -48,25 +49,39 @@ public class AIManager : MonoBehaviour
 
     private void GenerateNewPopulation()
     {
-        //for (int i = 0; i < _Cars.Count; i++)
-        //    Destroy(_Cars[i].gameObject);
-        //_Cars.Clear();
+        Debug.Log(Population);
 
-        //_ActiveCars = Population;
-        //for (int i = 0;i<Population;i++)
-        //{
-        //    DNA crossOvered = _First.CrossOver(_First, _Second);
-        //    crossOvered.Mutate();
-        //    GenerateCar(crossOvered);
-        //}
+        _NewPopulation.Clear();
+        _ActiveCars = Population;
+
+        for (int i = 0;i<Population/2;i++)
+        {
+            //for (int j = 0; j < 2; j++)
+            //{
+            DNA dna = _Cars[i].GetComponent<Car>().DNA;
+            dna.Mutate();
+            GameObject newCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
+            newCar.GetComponent<Car>().Initialize(dna);
+            _NewPopulation.Add(newCar);
+            //}
+        }
+
+        for (int i = 0;i<Population/2 - 1;i++)
+        {
+            DNA first = _Cars[i].GetComponent<Car>().DNA;
+            DNA second = _Cars[i+1].GetComponent<Car>().DNA;
+            DNA crossOver = first.CrossOver(first, second);
+            crossOver.Mutate();
+            GameObject newCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
+            newCar.GetComponent<Car>().Initialize(crossOver);
+            _NewPopulation.Add(newCar);
+        }
+
+        for (int i = 0;i<_Cars.Count;i++)
+        {
+            Destroy(_Cars[i].gameObject);
+        }
+
+        _Cars = _NewPopulation;
     }
-
-
-    private void GenerateCar(DNA dna)
-    {
-        GameObject gameObjectCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
-        gameObjectCar.GetComponent<Car>().Initialize(dna);
-        _Cars.Add(gameObjectCar);
-    }
-
 }

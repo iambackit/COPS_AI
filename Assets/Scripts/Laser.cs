@@ -28,8 +28,8 @@ public class Laser : MonoBehaviour
         RaycastHit2D collisonPoint = Physics2D.Raycast(_StartPosition, _EndPosition-_StartPosition, 100, _LayerMask);
         if (collisonPoint.collider != null)
         {
-            _LineRenderer.SetPosition(0, _StartPosition);
-            _LineRenderer.SetPosition(1, collisonPoint.point);
+            //_LineRenderer.SetPosition(0, _StartPosition);
+            //_LineRenderer.SetPosition(1, collisonPoint.point);
             _Distance = collisonPoint.distance;
         }
     }
