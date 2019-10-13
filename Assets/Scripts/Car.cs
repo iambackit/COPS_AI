@@ -17,6 +17,9 @@ public class Car : MonoBehaviour
     private NeuralNetwork _NeuralNetwork;
     private DNA _DNA;
     private bool _Initialized = false;
+
+    private int _Score = 0;
+    private int _NextScoreCollider = 0;
     #endregion
 
     public void Initialize()
@@ -45,7 +48,38 @@ public class Car : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        aiManager.DestroyCar(this.gameObject);
+        if (collision.gameObject.tag == Tag.Map)
+        {
+            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+            aiManager.DestroyCar(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("COLLISION HAPPENED");
+
+        if (collision.gameObject.tag == Tag.Score)
+        {
+            CalculateScore(collision.gameObject.name);
+        }
+    }
+
+    private void CalculateScore(string colliderName)
+    {
+        int convertedColliderName = int.Parse(colliderName);
+        //Debug.Log(convertedColliderName);
+        //Debug.Log(_NextScoreCollider);
+
+        if (convertedColliderName == _NextScoreCollider)
+        {
+            _Score++;
+            if (_NextScoreCollider == 8)
+                _NextScoreCollider = 0;
+            else
+                _NextScoreCollider++;
+            //_NextScoreCollider = (_NextScoreCollider == 8) ? 0 : _NextScoreCollider++;
+            Debug.Log(_NextScoreCollider);
+        }
     }
 }
