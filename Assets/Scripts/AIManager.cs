@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
+using System.Linq;
 
 public class AIManager : MonoBehaviour
 {
@@ -17,10 +18,12 @@ public class AIManager : MonoBehaviour
     private DNA _Second;
 
     private int _Generation = 0;
+    private int _ActiveCars = 0;
     #endregion
 
     void Start()
     {
+        _ActiveCars = Population;
         for (int i = 0; i < Population; i++)
         {
             GameObject gameObjectCar = Instantiate(CarPrefab, new Vector2(0, 2.5f), Quaternion.Euler(0, 0, 90));
@@ -28,44 +31,34 @@ public class AIManager : MonoBehaviour
             _Cars.Add(gameObjectCar);
         }
 
-        Debug.Log(_Generation++);
     }
 
     public void DestroyCar(GameObject gameObject)
     {
-        if (_Cars.Count == 2) //we set the first and the second place randomly
+        gameObject.SetActive(false);
+
+        if (_ActiveCars == 1)
         {
-            _First = _Cars[0].GetComponent<Car>().DNA;
-            _Second = _Cars[1].GetComponent<Car>().DNA;
-        }
-        if (_Cars.Count == 1)
-        {
-            if (!_First.Equals(_Cars[0].GetComponent<Car>().DNA)) //then we check, if we were right - if not then change
-            {
-                DNA temp = _First;
-                _First = _Second;
-                _Second = temp;
-            }
-            _Cars.Remove(gameObject);
-            Destroy(gameObject);
+            _Cars = _Cars.OrderByDescending(x => x.GetComponent<Car>().Score).ToList();
             GenerateNewPopulation();
         }
-        else
-        {
-            _Cars.Remove(gameObject);
-            Destroy(gameObject);
-        }
+
+        _ActiveCars--;
     }
 
     private void GenerateNewPopulation()
     {
-        _Cars.Clear();
-        for (int i = 0;i<Population;i++)
-        {
-            DNA crossOvered = _First.CrossOver(_First, _Second);
-            crossOvered.Mutate();
-            GenerateCar(crossOvered);
-        }
+        //for (int i = 0; i < _Cars.Count; i++)
+        //    Destroy(_Cars[i].gameObject);
+        //_Cars.Clear();
+
+        //_ActiveCars = Population;
+        //for (int i = 0;i<Population;i++)
+        //{
+        //    DNA crossOvered = _First.CrossOver(_First, _Second);
+        //    crossOvered.Mutate();
+        //    GenerateCar(crossOvered);
+        //}
     }
 
 
@@ -75,4 +68,5 @@ public class AIManager : MonoBehaviour
         gameObjectCar.GetComponent<Car>().Initialize(dna);
         _Cars.Add(gameObjectCar);
     }
+
 }

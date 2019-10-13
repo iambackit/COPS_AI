@@ -12,6 +12,7 @@ public class Car : MonoBehaviour
 {
     #region public
     public DNA DNA {get { return _DNA; } }
+    public int Score { get { return _Score; } }
     #endregion
     #region private
     private NeuralNetwork _NeuralNetwork;
@@ -57,8 +58,6 @@ public class Car : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("COLLISION HAPPENED");
-
         if (collision.gameObject.tag == Tag.Score)
         {
             CalculateScore(collision.gameObject.name);
@@ -68,18 +67,20 @@ public class Car : MonoBehaviour
     private void CalculateScore(string colliderName)
     {
         int convertedColliderName = int.Parse(colliderName);
-        //Debug.Log(convertedColliderName);
-        //Debug.Log(_NextScoreCollider);
 
         if (convertedColliderName == _NextScoreCollider)
         {
             _Score++;
+
             if (_NextScoreCollider == 8)
                 _NextScoreCollider = 0;
             else
                 _NextScoreCollider++;
-            //_NextScoreCollider = (_NextScoreCollider == 8) ? 0 : _NextScoreCollider++;
-            Debug.Log(_NextScoreCollider);
         }
     }
+
+    //private static int SortByScore(GameObject o1, GameObject o2)
+    //{
+    //    return o1.GetComponent<Car>()._Score.CompareTo(o2.GetComponent<Car>()._Score);
+    //}
 }
