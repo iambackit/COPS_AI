@@ -16,8 +16,8 @@ namespace Assets.Scripts.Data
     class NeuralNetwork
     {
         #region public
-        public OutputOfNeuronsInAllLayer OutputOfNeuronsInAllLayer { get; set; }
-        public WeightsOfAllLayer WeightsOfAllLayer { get; set; }
+        public OutputOfNeuronsInAllLayer OutputOfNeuronsInAllLayer { get; private set; }
+        public WeightsOfAllLayer WeightsOfAllLayer { get; private set; }
         #endregion
 
         #region private

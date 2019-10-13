@@ -11,8 +11,9 @@ using OutputOfNeuronsInAllLayer = System.Collections.Generic.List<System.Collect
 public class Car : MonoBehaviour
 {
     #region public
-    public DNA DNA {get { return _DNA; } }
+    public DNA DNA { get { return _DNA; } }
     public int Score { get { return _Score; } }
+    public bool Punished { get; private set; }
     #endregion
     #region private
     private NeuralNetwork _NeuralNetwork;
@@ -49,7 +50,7 @@ public class Car : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == Tag.Map)
+        if (collision.gameObject.tag == StringContainer.TagMap)
         {
             AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
             aiManager.DestroyCar(this.gameObject);
@@ -58,7 +59,7 @@ public class Car : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == Tag.Score)
+        if (collision.gameObject.tag == StringContainer.TagScore)
         {
             CalculateScore(collision.gameObject.name);
         }
@@ -72,13 +73,14 @@ public class Car : MonoBehaviour
         {
             _Score++;
 
-            if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount+1)
+            if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount-1)
                 _NextScoreCollider = 0;
             else
                 _NextScoreCollider++;
         }
         else
         {
+            Punished = true;
             AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
             aiManager.DestroyCar(this.gameObject);
         }
