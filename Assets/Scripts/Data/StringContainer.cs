@@ -17,5 +17,7 @@ namespace Assets.Scripts.Data
 
         public static readonly string DeathByWall = "Death by wall: ";
         public static readonly string DeathByPunishment = "Death by punishment: ";
+        public static readonly string BestScore = "Best score: ";
+        public static readonly string AverageScore = "Average score: ";
     }
 }

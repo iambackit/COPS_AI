@@ -72,6 +72,8 @@ public class Car : MonoBehaviour
         if (convertedColliderName == _NextScoreCollider)
         {
             _Score++;
+            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+            aiManager.SetBestScore(this.gameObject); ;
 
             if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount-1)
                 _NextScoreCollider = 0;
