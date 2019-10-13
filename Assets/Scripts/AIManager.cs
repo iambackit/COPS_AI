@@ -6,7 +6,7 @@ using System.Linq;
 
 public class AIManager : MonoBehaviour
 {
-    private enum NewPopulationGeneratedMethod
+    public enum NewPopulationGeneratedMethod
     {
         HalfBestHalfCrossovered,
         IgnorePunishedIndividuals,
@@ -16,6 +16,7 @@ public class AIManager : MonoBehaviour
     #region public
     public GameObject CarPrefab;
     public int Population = 50;
+    public NewPopulationGeneratedMethod SelectedMethod;
     #endregion
 
     #region private
@@ -56,7 +57,7 @@ public class AIManager : MonoBehaviour
 
         if (_ActiveCars == 1)
         {
-            SelectPopulationGenerator(NewPopulationGeneratedMethod.ChanceByScore);
+            SelectPopulationGenerator(SelectedMethod);
             _Generation++;
             _ActiveCars = Population;
         }
