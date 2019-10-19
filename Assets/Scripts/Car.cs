@@ -73,7 +73,7 @@ public class Car : MonoBehaviour
         {
             _Score++;
             AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-            aiManager.SetBestScore(this.gameObject); ;
+            aiManager.SetScore(this.gameObject); ;
 
             if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount-1)
                 _NextScoreCollider = 0;
@@ -82,6 +82,7 @@ public class Car : MonoBehaviour
         }
         else
         {
+            //_NextScoreCollider--;
             Punished = true;
             AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
             aiManager.DestroyCar(this.gameObject);

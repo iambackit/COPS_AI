@@ -35,8 +35,10 @@ public class AIManager : MonoBehaviour
     private int _DeathByWall = 0;
     private int _DeathByPunishment = 0;
     private int _BestScore = 0;
-    private float _AverageScore = 0;
+    private float _ActualGenerationAverageScore = 0;
     private float _TempAverageScore = 0;
+    private float _BestGenerationAverageScore = 0;
+    private int _IndexOfBestGenerationAverageScore = 0;
     #endregion
 
     void Start()
@@ -48,15 +50,11 @@ public class AIManager : MonoBehaviour
     public void DestroyCar(GameObject gameObject)
     {
         gameObject.SetActive(false);
-
-        if (gameObject.GetComponent<Car>().Punished)
-            _DeathByPunishment++;
-        else
-            _DeathByWall++;
-
+        SetCarDeath(gameObject);
 
         if (_ActiveCars == 1)
         {
+            _TempAverageScore = 0;
             SelectPopulationGenerator(SelectedMethod);
             _Generation++;
             _ActiveCars = Population;
@@ -65,13 +63,33 @@ public class AIManager : MonoBehaviour
             _ActiveCars--;
     }
 
-
-    public void SetBestScore(GameObject gameObject)
+    public void SetCarDeath(GameObject gameObject)
     {
+        if (gameObject.GetComponent<Car>().Punished)
+            _DeathByPunishment++;
+        else
+            _DeathByWall++;
+    }
+
+    public void SetScore(GameObject gameObject)
+    {
+        //calculate average generation score
         _TempAverageScore += gameObject.GetComponent<Car>().Score;
-        _AverageScore = _TempAverageScore / Population;
+        _ActualGenerationAverageScore = _TempAverageScore / Population;
+
+        //set best individual score
         if (gameObject.GetComponent<Car>().Score > _BestScore)
             _BestScore = gameObject.GetComponent<Car>().Score;
+
+        //set best average score
+        if (_ActualGenerationAverageScore > _BestGenerationAverageScore)
+        {
+            _IndexOfBestGenerationAverageScore = _Generation;
+            _BestGenerationAverageScore = _ActualGenerationAverageScore;
+        }
+
+       
+
     }
 
     private void GenerateFirstPopulation()
@@ -221,15 +239,18 @@ public class AIManager : MonoBehaviour
     #region GUI
     private void OnGUI()
     {
-        guiStyle.fontSize = 25;
+        guiStyle.fontSize = 20;
         guiStyle.normal.textColor = Color.red;
-        GUI.BeginGroup(new Rect(10, 10, 350, 250));
+        GUI.BeginGroup(new Rect(10, 10, 450, 300));
         GUI.Label(new Rect(0, 0, 100, 100), StringContainer.Generation + _Generation, guiStyle);
         GUI.Label(new Rect(0, 30, 100, 100), StringContainer.Population + Population, guiStyle);
         GUI.Label(new Rect(0, 60, 100, 100), StringContainer.CurrentPopulation + _ActiveCars, guiStyle);
         GUI.Label(new Rect(0, 90, 100, 100), StringContainer.DeathByWall + _DeathByWall, guiStyle);
         GUI.Label(new Rect(0, 120, 100, 100), StringContainer.DeathByPunishment + _DeathByPunishment, guiStyle);
         GUI.Label(new Rect(0, 150, 100, 100), StringContainer.BestScore + _BestScore, guiStyle);
+        GUI.Label(new Rect(0, 180, 100, 100), StringContainer.AverageScore + _ActualGenerationAverageScore, guiStyle);
+        GUI.Label(new Rect(0, 210, 100, 100), StringContainer.BestAverageScore + _BestGenerationAverageScore, guiStyle);
+        GUI.Label(new Rect(0, 240, 100, 100), StringContainer.BestAverageScoreIndex + _IndexOfBestGenerationAverageScore, guiStyle);
         GUI.EndGroup();
     }
 
