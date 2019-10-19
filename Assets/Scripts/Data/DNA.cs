@@ -15,7 +15,7 @@ namespace Assets.Scripts.Data
         #endregion
 
         #region private
-        private float _Probability = 0.08f;
+        private float _Probability = 0.025f;
         #endregion
 
         public DNA(WeightsOfAllLayer weights)
