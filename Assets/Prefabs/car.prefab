@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3119721385653979646}
   - component: {fileID: 3229638851393348396}
   - component: {fileID: 2466354329658984873}
-  - component: {fileID: 3594679034379405856}
   - component: {fileID: 2195466464039092783}
+  - component: {fileID: 2893819540344816594}
   m_Layer: 9
   m_Name: car
   m_TagString: Untagged
@@ -168,18 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsControlledByPlayer: 0
---- !u!114 &3594679034379405856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231699628855369034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0962122aebdd472418db0a0d5a0d9ed8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2195466464039092783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,5 +178,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d685dc9b83f1ce242afa36d9b0f4c845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2893819540344816594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231699628855369034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f019e4a546c11ff4ca1950a7450d922f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
