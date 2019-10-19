@@ -10,6 +10,7 @@ public class AIManager : MonoBehaviour
     public GameObject CarPrefab;
     public int Population = 50;
     public PopulationGeneratorName SelectedMethod;
+    public Sprite DarkCar;
     #endregion
 
     #region private
@@ -46,6 +47,8 @@ public class AIManager : MonoBehaviour
     public void DestroyCar(GameObject gameObject)
     {
         //gameObject.SetActive(false);
+        gameObject.GetComponent<SpriteRenderer>().sprite = DarkCar;
+        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
         SetCarDeath(gameObject);
 
         if (_ActiveCars == 1)

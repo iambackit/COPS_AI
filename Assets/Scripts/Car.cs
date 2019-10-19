@@ -78,8 +78,7 @@ public class Car : MonoBehaviour
     {
         int convertedColliderName = int.Parse(colliderName);
 
-        int actCollider = (_NextScoreCollider == 0) ? _ScoreSystemChildrenCount : _NextScoreCollider-1;
-        if (convertedColliderName == _NextScoreCollider || convertedColliderName == actCollider)
+        if (convertedColliderName == _NextScoreCollider)
         {
             _Score+=10;
             _AIManager.SetScore(this.gameObject); ;
@@ -90,14 +89,13 @@ public class Car : MonoBehaviour
                 _NextScoreCollider++;
         }
         else
-        //{
             Punished = true;
-        //    _IsAlive = false;
-        //    FreezeCar();
 
-        //    //AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        //    _AIManager.DestroyCar(this.gameObject);
-        //}
+        if (_Score >= 500)
+        {
+            _AIManager.DestroyCar(this.gameObject);
+            FreezeCar();
+        }
     }
 
     private void FreezeCar()
