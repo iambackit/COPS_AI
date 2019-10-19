@@ -18,7 +18,9 @@ public class Car : MonoBehaviour
     #region private
     private NeuralNetwork _NeuralNetwork;
     private DNA _DNA;
+
     private bool _Initialized = false;
+    private bool _IsAlive = true;
 
     private int _Score = 0;
     private int _NextScoreCollider = 0;
@@ -40,6 +42,7 @@ public class Car : MonoBehaviour
 
     void Update()
     {
+        //if (_IsAlive && _Initialized)
         if (_Initialized)
         {
             List<float> distances = GetComponent<LaserContainer>().GetDistances();
@@ -54,6 +57,7 @@ public class Car : MonoBehaviour
         {
             AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
             aiManager.DestroyCar(this.gameObject);
+            _IsAlive = false;
         }
     }
 

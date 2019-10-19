@@ -94,7 +94,11 @@ class PopulationManager : MonoBehaviour
     private void GenerateNewPopulationChanceByScore()
     {
         _NewPopulation = new List<GameObject>();
-        _Cars = _Cars.Select(x => x).Where(x => x.GetComponent<Car>().Punished == false).ToList();
+        for (int i = 0;i<_Population;i++)
+        {
+            if (_Cars[i].GetComponent<Car>().Punished)
+                Destroy(_Cars[i]);
+        }
         int totalScore = _Cars.Sum(x => x.GetComponent<Car>().Score);
 
         int[] indexProbability = new int[totalScore];
