@@ -45,7 +45,7 @@ public class AIManager : MonoBehaviour
 
     public void DestroyCar(GameObject gameObject)
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         SetCarDeath(gameObject);
 
         if (_ActiveCars == 1)
@@ -84,7 +84,6 @@ public class AIManager : MonoBehaviour
             _BestGenerationAverageScore = _ActualGenerationAverageScore;
         }
     }
-
 
     #region GUI
     private void OnGUI()

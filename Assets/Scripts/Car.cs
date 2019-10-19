@@ -18,12 +18,14 @@ public class Car : MonoBehaviour
     #region private
     private NeuralNetwork _NeuralNetwork;
     private DNA _DNA;
+    private AIManager _AIManager;
 
     private bool _Initialized = false;
     private bool _IsAlive = true;
 
     private int _Score = 0;
     private int _NextScoreCollider = 0;
+    private int _ScoreSystemChildrenCount = 0;
     #endregion
 
     public void Initialize()
@@ -31,6 +33,8 @@ public class Car : MonoBehaviour
         _NeuralNetwork = new NeuralNetwork();
         _DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
         _Initialized = true;
+        _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
 
     public void Initialize(DNA dna)
@@ -38,12 +42,13 @@ public class Car : MonoBehaviour
         _NeuralNetwork = new NeuralNetwork(dna);
         _DNA = dna;
         _Initialized = true;
+        _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
 
     void Update()
     {
-        //if (_IsAlive && _Initialized)
-        if (_Initialized)
+        if (_IsAlive && _Initialized)
         {
             List<float> distances = GetComponent<LaserContainer>().GetDistances();
             List<float> output = _NeuralNetwork.FeedForward(distances);
@@ -53,17 +58,17 @@ public class Car : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == StringContainer.TagMap)
+        if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
         {
-            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-            aiManager.DestroyCar(this.gameObject);
+            _AIManager.DestroyCar(this.gameObject);
             _IsAlive = false;
+            FreezeCar();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == StringContainer.TagScore)
+        if (_IsAlive && collision.gameObject.tag == StringContainer.TagScore)
         {
             CalculateScore(collision.gameObject.name);
         }
@@ -73,24 +78,32 @@ public class Car : MonoBehaviour
     {
         int convertedColliderName = int.Parse(colliderName);
 
-        if (convertedColliderName == _NextScoreCollider)
+        int actCollider = (_NextScoreCollider == 0) ? _ScoreSystemChildrenCount : _NextScoreCollider-1;
+        if (convertedColliderName == _NextScoreCollider || convertedColliderName == actCollider)
         {
-            _Score++;
-            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-            aiManager.SetScore(this.gameObject); ;
+            _Score+=10;
+            _AIManager.SetScore(this.gameObject); ;
 
-            if (_NextScoreCollider == GameObject.Find("ScoreSystem").transform.childCount-1)
+            if (_NextScoreCollider == _ScoreSystemChildrenCount)
                 _NextScoreCollider = 0;
             else
                 _NextScoreCollider++;
         }
         else
-        {
-            //_NextScoreCollider--;
+        //{
             Punished = true;
-            AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-            aiManager.DestroyCar(this.gameObject);
-        }
+        //    _IsAlive = false;
+        //    FreezeCar();
+
+        //    //AIManager aiManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        //    _AIManager.DestroyCar(this.gameObject);
+        //}
+    }
+
+    private void FreezeCar()
+    {
+        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
 }
