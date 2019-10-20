@@ -46,10 +46,12 @@ public class AIManager : MonoBehaviour
 
     public void DestroyCar(GameObject gameObject)
     {
-        //gameObject.SetActive(false);
-        gameObject.GetComponent<SpriteRenderer>().sprite = DarkCar;
-        gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
-        SetCarDeath(gameObject);
+        if (gameObject != null)
+        {
+            gameObject.GetComponent<SpriteRenderer>().sprite = DarkCar;
+            gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+            SetCarDeath(gameObject);
+        }
 
         if (_ActiveCars == 1)
         {
@@ -62,6 +64,15 @@ public class AIManager : MonoBehaviour
             _ActiveCars--;
     }
 
+    #region buttons
+    public void NextGenerationButton()
+    {
+        _ActiveCars = 1;
+        DestroyCar(null);
+    }
+    #endregion
+
+    #region calculations for statistic
     public void SetCarDeath(GameObject gameObject)
     {
         if (gameObject.GetComponent<Car>().Punished)
@@ -73,7 +84,8 @@ public class AIManager : MonoBehaviour
     public void SetScore(GameObject gameObject)
     {
         //calculate average generation score
-        _TempAverageScore += gameObject.GetComponent<Car>().Score;
+        //_TempAverageScore += gameObject.GetComponent<Car>().Score;
+        _TempAverageScore++;
         _ActualGenerationAverageScore = _TempAverageScore / Population;
 
         //set best individual score
@@ -87,6 +99,8 @@ public class AIManager : MonoBehaviour
             _BestGenerationAverageScore = _ActualGenerationAverageScore;
         }
     }
+    #endregion
+
 
     #region GUI
     private void OnGUI()

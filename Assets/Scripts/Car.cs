@@ -33,6 +33,8 @@ public class Car : MonoBehaviour
         _NeuralNetwork = new NeuralNetwork();
         _DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
         _Initialized = true;
+        _IsAlive = true;
+
         _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
@@ -42,6 +44,8 @@ public class Car : MonoBehaviour
         _NeuralNetwork = new NeuralNetwork(dna);
         _DNA = dna;
         _Initialized = true;
+        _IsAlive = true;
+
         _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
         _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }

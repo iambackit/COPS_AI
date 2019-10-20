@@ -29,10 +29,11 @@ public class CarController : MonoBehaviour
         else
             v = -1;
 
-        if (inputs[1]*2 > 1f)
+        if (inputs[1] * 2 > 1f)
             h = 1;
         else
             h = -1;
+            
 
         Vector2 speed = transform.up * (v * Acceleration);
         rb.AddForce(speed);
