@@ -15,11 +15,10 @@ namespace Assets.Scripts.Data
         public static readonly string Population = "Population: ";
         public static readonly string CurrentPopulation = "Current population: ";
 
-        public static readonly string DeathByWall = "Death by wall: ";
-        public static readonly string DeathByPunishment = "Death by punishment: ";
         public static readonly string BestScore = "Best score: ";
         public static readonly string AverageScore = "Actual average score: ";
         public static readonly string BestAverageScore = "Best generation average score: ";
         public static readonly string BestAverageScoreIndex = "Best generation index: ";
+        public static readonly string MutationRate = "Mutation rate: 2.5%";
     }
 }

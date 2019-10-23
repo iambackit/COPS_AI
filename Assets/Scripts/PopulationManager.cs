@@ -51,7 +51,7 @@ class PopulationManager : MonoBehaviour
     {
         for (int i = 0; i < _Population; i++)
         {
-            GameObject gameObjectCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject gameObjectCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             gameObjectCar.GetComponent<Car>().Initialize();
             _Cars.Add(gameObjectCar);
         }
@@ -67,7 +67,7 @@ class PopulationManager : MonoBehaviour
         {
             DNA dna = _Cars[i].GetComponent<Car>().DNA;
             dna.Mutate();
-            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             newCar.GetComponent<Car>().Initialize(dna);
             _NewPopulation.Add(newCar);
         }
@@ -78,7 +78,7 @@ class PopulationManager : MonoBehaviour
             DNA second = _Cars[i + 1].GetComponent<Car>().DNA;
             DNA crossOver = first.CrossOver(first, second);
             crossOver.Mutate();
-            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             newCar.GetComponent<Car>().Initialize(crossOver);
             _NewPopulation.Add(newCar);
         }
@@ -121,7 +121,7 @@ class PopulationManager : MonoBehaviour
             DNA second = _Cars[secondCarIndex].GetComponent<Car>().DNA;
             DNA crossOver = first.CrossOver(first, second);
             crossOver.Mutate();
-            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             newCar.GetComponent<Car>().Initialize(crossOver);
             _NewPopulation.Add(newCar);
         }
@@ -146,7 +146,7 @@ class PopulationManager : MonoBehaviour
         {
             DNA dna = _Cars[i].GetComponent<Car>().DNA;
             dna.Mutate();
-            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             newCar.GetComponent<Car>().Initialize(dna);
             _NewPopulation.Add(newCar);
         }
@@ -162,7 +162,7 @@ class PopulationManager : MonoBehaviour
             DNA second = _Cars[secondCarIndex].GetComponent<Car>().DNA;
             DNA crossOver = first.CrossOver(first, second);
             crossOver.Mutate();
-            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2f, 2.5f)), Quaternion.Euler(0, 0, 90));
+            GameObject newCar = Instantiate(_CarPrefab, new Vector2(0, Random.Range(2.7f, 3.3f)), Quaternion.Euler(0, 0, 90));
             newCar.GetComponent<Car>().Initialize(crossOver);
             _NewPopulation.Add(newCar);
         }

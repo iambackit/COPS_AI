@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
-using System.Linq;
+using UnityEngine.UI;
 
 public class AIManager : MonoBehaviour
 {
@@ -11,6 +11,8 @@ public class AIManager : MonoBehaviour
     public int Population = 50;
     public PopulationGeneratorName SelectedMethod;
     public Sprite DarkCar;
+    public Text Generation;
+    public Text Statistic;
     #endregion
 
     #region private
@@ -25,8 +27,6 @@ public class AIManager : MonoBehaviour
     private int _ActiveCars;
 
     //for some statistic data
-    private int _DeathByWall = 0;
-    private int _DeathByPunishment = 0;
     private int _BestScore = 0;
     private float _ActualGenerationAverageScore = 0;
     private float _TempAverageScore = 0;
@@ -44,13 +44,18 @@ public class AIManager : MonoBehaviour
         _Generation++;
     }
 
+    private void FixedUpdate()
+    {
+        SetGenerationText();
+        SetStatisticText();
+    }
+
     public void DestroyCar(GameObject gameObject)
     {
         if (gameObject != null)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = DarkCar;
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
-            SetCarDeath(gameObject);
         }
 
         if (_ActiveCars == 1)
@@ -73,18 +78,10 @@ public class AIManager : MonoBehaviour
     #endregion
 
     #region calculations for statistic
-    public void SetCarDeath(GameObject gameObject)
-    {
-        if (gameObject.GetComponent<Car>().Punished)
-            _DeathByPunishment++;
-        else
-            _DeathByWall++;
-    }
 
     public void SetScore(GameObject gameObject)
     {
         //calculate average generation score
-        //_TempAverageScore += gameObject.GetComponent<Car>().Score;
         _TempAverageScore++;
         _ActualGenerationAverageScore = _TempAverageScore / Population;
 
@@ -103,21 +100,21 @@ public class AIManager : MonoBehaviour
 
 
     #region GUI
-    private void OnGUI()
+    private void SetGenerationText()
     {
-        guiStyle.fontSize = 20;
-        guiStyle.normal.textColor = Color.red;
-        GUI.BeginGroup(new Rect(10, 10, 450, 300));
-        GUI.Label(new Rect(0, 0, 100, 100), StringContainer.Generation + _Generation, guiStyle);
-        GUI.Label(new Rect(0, 30, 100, 100), StringContainer.Population + Population, guiStyle);
-        GUI.Label(new Rect(0, 60, 100, 100), StringContainer.CurrentPopulation + _ActiveCars, guiStyle);
-        GUI.Label(new Rect(0, 90, 100, 100), StringContainer.DeathByWall + _DeathByWall, guiStyle);
-        GUI.Label(new Rect(0, 120, 100, 100), StringContainer.DeathByPunishment + _DeathByPunishment, guiStyle);
-        GUI.Label(new Rect(0, 150, 100, 100), StringContainer.BestScore + _BestScore, guiStyle);
-        GUI.Label(new Rect(0, 180, 100, 100), StringContainer.AverageScore + _ActualGenerationAverageScore, guiStyle);
-        GUI.Label(new Rect(0, 210, 100, 100), StringContainer.BestAverageScore + _BestGenerationAverageScore, guiStyle);
-        GUI.Label(new Rect(0, 240, 100, 100), StringContainer.BestAverageScoreIndex + _IndexOfBestGenerationAverageScore, guiStyle);
-        GUI.EndGroup();
+        Generation.text = 
+            StringContainer.Generation + _Generation + "\n"
+            + StringContainer.Population + Population + "\n"
+            + StringContainer.CurrentPopulation + _ActiveCars + "\n"
+            + StringContainer.MutationRate;
+    }
+
+    private void SetStatisticText()
+    {
+        Statistic.text =
+            StringContainer.BestAverageScoreIndex + _IndexOfBestGenerationAverageScore + "\n"
+            + StringContainer.AverageScore + _ActualGenerationAverageScore + "\n"
+            + StringContainer.BestAverageScore + _BestGenerationAverageScore + "\n";
     }
 
     #endregion
