@@ -9054,7 +9054,7 @@ GameObject:
   - component: {fileID: 1628106630}
   - component: {fileID: 1628106629}
   - component: {fileID: 1628106631}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 0
   m_TagString: Map
   m_Icon: {fileID: 0}
