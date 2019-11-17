@@ -21,8 +21,6 @@ public class AIManager : MonoBehaviour
     private DNA _First;
     private DNA _Second;
 
-    private GUIStyle guiStyle;
-
     private int _Generation = 0;
     private int _ActiveCars;
 
@@ -36,7 +34,6 @@ public class AIManager : MonoBehaviour
 
     void Start()
     {
-        guiStyle = new GUIStyle();
         _PopulationManager = new PopulationManager(SelectedMethod, Population, CarPrefab);
         _PopulationManager.CreateNewGeneration();
 
