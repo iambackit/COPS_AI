@@ -6,7 +6,7 @@ public class CarController : MonoBehaviour
 {
     #region public
     private float Acceleration = 3;
-    private float Steering = 5;
+    private float Steering = 10;
     public bool IsControlledByPlayer = false;
     #endregion
 
