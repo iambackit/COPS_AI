@@ -24,6 +24,7 @@ class EvolutionGenerator : MonoBehaviour
         _Selection.Position = this._Position;
         _Selection.Rotation = this._Rotation;
         _Selection.Population = this.Population;
+        _Selection.CreateFirstGeneration();
     }
 
     private void CreateGeneration()

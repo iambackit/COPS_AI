@@ -8,9 +8,9 @@ namespace Assets.Scripts.Selection
 {
     public enum SelectionName
     {
+        ChanceByScore,
         HalfBestHalfCrossovered,
         IgnorePunishedIndividuals,
-        ChanceByScore,
         PickTheOnlyBest
     }
 }

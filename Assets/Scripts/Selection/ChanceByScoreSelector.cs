@@ -12,23 +12,24 @@ namespace Assets.Scripts.Selection
         {
             List<GameObject> nextGeneration = new List<GameObject>();
 
-            for (int i = 0; i < _ActualGeneration.Count; i++)
-            {
-                if (_ActualGeneration[i].GetComponent<Car>().Punished)
-                    Destroy(_ActualGeneration[i]);
-            }
-            int totalScore = _ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            IgnorePunishedCars();
+            int[] indexProbability = CreateIndexProbabilities();
+            CreateNextGeneration(indexProbability, nextGeneration);
+            DestroyPreviousGenerationCars();
+            _ActualGeneration = nextGeneration;
+        }
 
-            int[] indexProbability = new int[totalScore];
-            int actIndex = 0;
+        private void DestroyPreviousGenerationCars()
+        {
             for (int i = 0; i < _ActualGeneration.Count; i++)
             {
-                for (int j = 0; j < _ActualGeneration[i].GetComponent<Car>().Score; j++)
-                {
-                    indexProbability[actIndex] = i;
-                    actIndex++;
-                }
+                Destroy(_ActualGeneration[i].gameObject);
             }
+        }
+
+        private void CreateNextGeneration(int[] indexProbability, List<GameObject> nextGeneration)
+        {
+            int totalScore = _ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
 
             for (int i = 0; i < this.Population; i++)
             {
@@ -43,13 +44,39 @@ namespace Assets.Scripts.Selection
                 newCar.GetComponent<Car>().Initialize(crossOver);
                 nextGeneration.Add(newCar);
             }
+        }
+
+        private void IgnorePunishedCars()
+        {
+            for (int i = 0; i < _ActualGeneration.Count; i++)
+            {
+                if (_ActualGeneration[i].GetComponent<Car>().Punished)
+                    Destroy(_ActualGeneration[i]);
+            }
+        }
+
+        /*each car indicies will be in the array, as many times, as many score has
+         * e.g. 
+         * 0th car with 0 points won't be in the array
+         * 1st car with 2 points will be 2 times
+         * nth car with xth score will be xth times in the array*/
+        private int[] CreateIndexProbabilities()
+        {
+            int totalScore = _ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            int[] indexProbability = new int[totalScore];
+            int actIndex = 0;
 
             for (int i = 0; i < _ActualGeneration.Count; i++)
             {
-                Destroy(_ActualGeneration[i].gameObject);
+                for (int j = 0; j < _ActualGeneration[i].GetComponent<Car>().Score; j++)
+                {
+                    indexProbability[actIndex] = i;
+                    actIndex++;
+                }
             }
 
-            _ActualGeneration = nextGeneration;
+            return indexProbability;
         }
     }
+
 }
