@@ -18,7 +18,7 @@ public class Car : MonoBehaviour
     #region private
     private NeuralNetwork _NeuralNetwork;
     private DNA _DNA;
-    private AIManager _AIManager;
+    //private AIManager _AIManager;
 
     private bool _Initialized = false;
     private bool _IsAlive = true;
@@ -35,19 +35,19 @@ public class Car : MonoBehaviour
         _Initialized = true;
         _IsAlive = true;
 
-        _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
+        //_AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        //_ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
 
     public void Initialize(DNA dna)
     {
-        _NeuralNetwork = new NeuralNetwork(dna);
-        _DNA = dna;
-        _Initialized = true;
-        _IsAlive = true;
+        //_NeuralNetwork = new NeuralNetwork(dna);
+        //_DNA = dna;
+        //_Initialized = true;
+        //_IsAlive = true;
 
-        _AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        _ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
+        //_AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
+        //_ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
 
     void Update()
@@ -64,7 +64,7 @@ public class Car : MonoBehaviour
     {
         if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
         {
-            _AIManager.DestroyCar(this.gameObject);
+            //_AIManager.DestroyCar(this.gameObject);
             _IsAlive = false;
             FreezeCar();
         }
@@ -80,26 +80,26 @@ public class Car : MonoBehaviour
 
     private void CalculateScore(string colliderName)
     {
-        int convertedColliderName = int.Parse(colliderName);
+        //int convertedColliderName = int.Parse(colliderName);
 
-        if (convertedColliderName == _NextScoreCollider)
-        {
-            _Score+=10;
-            _AIManager.SetScore(this.gameObject); ;
+        //if (convertedColliderName == _NextScoreCollider)
+        //{
+        //    _Score+=10;
+        //    _AIManager.SetScore(this.gameObject); ;
 
-            if (_NextScoreCollider == _ScoreSystemChildrenCount)
-                _NextScoreCollider = 0;
-            else
-                _NextScoreCollider++;
-        }
-        else
-            Punished = true;
+        //    if (_NextScoreCollider == _ScoreSystemChildrenCount)
+        //        _NextScoreCollider = 0;
+        //    else
+        //        _NextScoreCollider++;
+        //}
+        //else
+        //    Punished = true;
 
-        if (_Score >= 500)
-        {
-            _AIManager.DestroyCar(this.gameObject);
-            FreezeCar();
-        }
+        //if (_Score >= 500)
+        //{
+        //    _AIManager.DestroyCar(this.gameObject);
+        //    FreezeCar();
+        //}
     }
 
     private void FreezeCar()

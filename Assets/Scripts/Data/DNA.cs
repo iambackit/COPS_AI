@@ -36,7 +36,6 @@ namespace Assets.Scripts.Data
 
                 for (int j = 0;j<parentWeights0.Count;j++)
                 {
-                    //newWeight[j] = new WeightsOfNeuron();
                     WeightsOfNeuron actualWeights = new WeightsOfNeuron();
                     newWeight.Add(actualWeights);
                     for (int k = 0;k<parentWeights0[j].Count;k++)

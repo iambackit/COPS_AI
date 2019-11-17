@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Data
+namespace Assets.Scripts.Selection
 {
-    public enum PopulationGeneratorName
+    public enum SelectionName
     {
         HalfBestHalfCrossovered,
         IgnorePunishedIndividuals,
