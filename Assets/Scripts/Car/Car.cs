@@ -38,27 +38,19 @@ public class Car : CarController
     {
         if (_IsAlive)
         {
-            try
-            {
-                List<float> distances = GetComponent<LaserContainer>().GetDistances();
-                List<float> neuralNetworkOutput = _NeuralNetwork.FeedForward(distances);
-
-                GetComponent<CarController>().Move(neuralNetworkOutput);
-            }
-            catch(System.Exception e)
-            {
-                int k = 3;
-            }
+            List<float> distances = GetComponent<LaserContainer>().GetDistances();
+            List<float> neuralNetworkOutput = _NeuralNetwork.FeedForward(distances);
+            GetComponent<CarController>().Move(neuralNetworkOutput);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
-        //{
-        //    //_AIManager.DestroyCar(this.gameObject);
-        //    _IsAlive = false;
-        //    FreezeCar();
-        //}
+        if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
+        {
+            _IsAlive = false;
+            FreezeCar();
+            ChangeAlphaAndSortingOrder();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -95,8 +87,14 @@ public class Car : CarController
 
     private void FreezeCar()
     {
-        //Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    private void ChangeAlphaAndSortingOrder()
+    {
+        GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.6f); //reduce the alpha channel by 60%
+        GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
 
 }

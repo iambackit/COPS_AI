@@ -11,8 +11,8 @@ class EvolutionGenerator : MonoBehaviour
     public SelectionName SelectionName;
     public GameObject Prefab;
     [Range(1,50)]public int Population = 1;
+    public Vector2 Position = new Vector2(0, 0);
 
-    private Vector2 _Position = new Vector2(0, 0);
     private Quaternion _Rotation = Quaternion.Euler(0, 0, 0);
     private ISelectable _Selection;
     #endregion
@@ -21,7 +21,7 @@ class EvolutionGenerator : MonoBehaviour
     {
         _Selection = SelectionFactory.Selection(SelectionName);
         _Selection.Prefab = this.Prefab;
-        _Selection.Position = this._Position;
+        _Selection.Position = this.Position;
         _Selection.Rotation = this._Rotation;
         _Selection.Population = this.Population;
         _Selection.CreateFirstGeneration();
