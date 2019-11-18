@@ -66,35 +66,6 @@ namespace Assets.Scripts.Data
             }
         }
 
-        public List<float> FeedForward(List<float> distances)
-        {
-            for (int i = 0; i < distances.Count; i++)
-                OutputOfNeuronsInAllLayer[0][i] = distances[i];
-
-
-            for (int indexOfLayer = 0; indexOfLayer < (OutputOfNeuronsInAllLayer.Count - 1); indexOfLayer++)
-            {
-                WeightOfSingleLayer weightOfActulLayer = WeightsOfAllLayer[indexOfLayer];
-
-                WeightsOfNeuron actualLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer];
-                WeightsOfNeuron nextLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer + 1];
-
-                for (int i = 0;i<nextLayerWeightsOfNeuron.Count;i++)
-                {
-                    float sum = 0;
-                    for (int j = 0;j<actualLayerWeightsOfNeuron.Count;j++)
-                    {
-                        sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
-                    }
-
-                    nextLayerWeightsOfNeuron[i] = Sigmoid(sum);
-                }
-            }
-
-            List<float> output = OutputOfNeuronsInAllLayer[OutputOfNeuronsInAllLayer.Count - 1];
-            return output;
-        }
-
         public NeuralNetwork(DNA dna)
         {
             WeightsOfAllLayer = dna.WeightsOfAllLayer;
@@ -112,6 +83,35 @@ namespace Assets.Scripts.Data
 
                 OutputOfNeuronsInAllLayer.Add(outputOfNeuronsInSingleLayer);
             }
+        }
+
+        public List<float> FeedForward(List<float> distances)
+        {
+            for (int i = 0; i < distances.Count; i++)
+                OutputOfNeuronsInAllLayer[0][i] = distances[i];
+
+
+            for (int indexOfLayer = 0; indexOfLayer < (OutputOfNeuronsInAllLayer.Count - 1); indexOfLayer++)
+            {
+                WeightOfSingleLayer weightOfActulLayer = WeightsOfAllLayer[indexOfLayer];
+
+                WeightsOfNeuron actualLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer];
+                WeightsOfNeuron nextLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer + 1];
+
+                for (int i = 0; i < nextLayerWeightsOfNeuron.Count; i++)
+                {
+                    float sum = 0;
+                    for (int j = 0; j < actualLayerWeightsOfNeuron.Count; j++)
+                    {
+                        sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
+                    }
+
+                    nextLayerWeightsOfNeuron[i] = Sigmoid(sum);
+                }
+            }
+
+            List<float> output = OutputOfNeuronsInAllLayer[OutputOfNeuronsInAllLayer.Count - 1];
+            return output;
         }
 
         private int GetActualLayerSize(int layerIndex)

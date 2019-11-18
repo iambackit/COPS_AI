@@ -8,51 +8,34 @@ using WeightsOfAllLayer = System.Collections.Generic.List<System.Collections.Gen
 using OutputOfNeuronsInSingleLayer = System.Collections.Generic.List<float>;
 using OutputOfNeuronsInAllLayer = System.Collections.Generic.List<System.Collections.Generic.List<float>>;
 
-public class Car : MonoBehaviour
+public class Car : CarController
 {
-    #region public
-    public DNA DNA { get { return _DNA; } }
-    public int Score { get { return _Score; } }
+    #region properties
+    public DNA DNA { get; set; }
     public bool Punished { get; private set; }
-    #endregion
-    #region private
+    public int Score { get; set; }
+
     private NeuralNetwork _NeuralNetwork;
-    private DNA _DNA;
-    //private AIManager _AIManager;
-
-    private bool _Initialized = false;
     private bool _IsAlive = true;
-
-    private int _Score = 0;
-    private int _NextScoreCollider = 0;
-    private int _ScoreSystemChildrenCount = 0;
     #endregion
 
     public void Initialize()
     {
         _NeuralNetwork = new NeuralNetwork();
-        _DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
-        _Initialized = true;
+        DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
         _IsAlive = true;
-
-        //_AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        //_ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
     }
 
     public void Initialize(DNA dna)
     {
-        //_NeuralNetwork = new NeuralNetwork(dna);
-        //_DNA = dna;
-        //_Initialized = true;
-        //_IsAlive = true;
-
-        //_AIManager = GameObject.Find("AIManager").GetComponent<AIManager>();
-        //_ScoreSystemChildrenCount = GameObject.Find("ScoreSystem").transform.childCount - 1;
+        _NeuralNetwork = new NeuralNetwork(dna);
+        DNA = dna;
+        _IsAlive = true;
     }
 
     void Update()
     {
-        if (_IsAlive && _Initialized)
+        if (_IsAlive)
         {
             List<float> distances = GetComponent<LaserContainer>().GetDistances();
             List<float> output = _NeuralNetwork.FeedForward(distances);

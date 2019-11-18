@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Interfaces;
 
-public class LaserContainer : MonoBehaviour
+public class LaserContainer : MonoBehaviour, ILaserCreatable
 {
     private List<float> _Distances;
     private List<GameObject> Container;
@@ -27,7 +27,7 @@ public class LaserContainer : MonoBehaviour
         return _Distances;
     }
 
-    private void GenerateLasers(int laserCount)
+    public void GenerateLasers(int laserCount)
     {
         float viewAngle = 180;
         float normalizeAngle = viewAngle / 2;

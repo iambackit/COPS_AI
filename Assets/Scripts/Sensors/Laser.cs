@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Assets.Scripts.Interfaces;
 
-public class Laser : MonoBehaviour
+public class Laser : MonoBehaviour, IDistanceMeasurable
 {
-    public float Distance { get { return _Distance; } }
+    public float Distance { get; private set; }
+    public bool IsLineVisible { private get; set; }
 
     private Vector2 _StartPosition;
     private Vector2 _EndPosition;
     private int _LayerMask = 1 << 8;
     private int _LaserLength = 20;
-    private float _Distance = 0f;
     private LineRenderer _LineRenderer;
 
     private void Start()
@@ -23,14 +22,24 @@ public class Laser : MonoBehaviour
 
     void FixedUpdate()
     {
+        MeasureDistance();
+    }
+
+    public void MeasureDistance()
+    {
         _StartPosition = this.transform.position;
         _EndPosition = (Vector2)this.transform.position + (Vector2)this.transform.up * _LaserLength;
-        RaycastHit2D collisonPoint = Physics2D.Raycast(_StartPosition, _EndPosition-_StartPosition, 100, _LayerMask);
+        RaycastHit2D collisonPoint = Physics2D.Raycast(_StartPosition, _EndPosition - _StartPosition, 100, _LayerMask);
+
         if (collisonPoint.collider != null)
         {
-            //_LineRenderer.SetPosition(0, _StartPosition);
-            //_LineRenderer.SetPosition(1, collisonPoint.point);
-            _Distance = collisonPoint.distance;
+            //if (IsLineVisible)
+            //{
+                _LineRenderer.SetPosition(0, _StartPosition);
+                _LineRenderer.SetPosition(1, collisonPoint.point);
+            //}
+
+            Distance = collisonPoint.distance;
         }
     }
 }

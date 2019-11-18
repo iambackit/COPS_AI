@@ -19,6 +19,7 @@ namespace Assets.Scripts.Selection
             _ActualGeneration = nextGeneration;
         }
 
+        #region private
         private void DestroyPreviousGenerationCars()
         {
             for (int i = 0; i < _ActualGeneration.Count; i++)
@@ -77,6 +78,7 @@ namespace Assets.Scripts.Selection
 
             return indexProbability;
         }
+        #endregion
     }
 
 }
