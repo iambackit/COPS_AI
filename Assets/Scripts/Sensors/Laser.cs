@@ -33,12 +33,8 @@ public class Laser : MonoBehaviour, IDistanceMeasurable
 
         if (collisonPoint.collider != null)
         {
-            //if (IsLineVisible)
-            //{
-                _LineRenderer.SetPosition(0, _StartPosition);
-                _LineRenderer.SetPosition(1, collisonPoint.point);
-            //}
-
+            //_LineRenderer.SetPosition(0, _StartPosition);
+            //_LineRenderer.SetPosition(1, collisonPoint.point);
             Distance = collisonPoint.distance;
         }
     }

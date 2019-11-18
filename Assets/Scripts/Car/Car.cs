@@ -28,7 +28,8 @@ public class Car : CarController
 
     public void Initialize(DNA dna)
     {
-        _NeuralNetwork = new NeuralNetwork(dna);
+        //_NeuralNetwork = new NeuralNetwork(dna);
+        _NeuralNetwork.ModifyDNA(dna);
         DNA = dna;
         _IsAlive = true;
     }
@@ -38,27 +39,27 @@ public class Car : CarController
         if (_IsAlive)
         {
             List<float> distances = GetComponent<LaserContainer>().GetDistances();
-            List<float> output = _NeuralNetwork.FeedForward(distances);
+            List<float> neuralNetworkOutput = _NeuralNetwork.FeedForward(distances);
 
-            GetComponent<CarController>().Move(output);
+            GetComponent<CarController>().Move(neuralNetworkOutput);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
-        {
-            //_AIManager.DestroyCar(this.gameObject);
-            _IsAlive = false;
-            FreezeCar();
-        }
+        //if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
+        //{
+        //    //_AIManager.DestroyCar(this.gameObject);
+        //    _IsAlive = false;
+        //    FreezeCar();
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_IsAlive && collision.gameObject.tag == StringContainer.TagScore)
-        {
-            CalculateScore(collision.gameObject.name);
-        }
+        //if (_IsAlive && collision.gameObject.tag == StringContainer.TagScore)
+        //{
+        //    CalculateScore(collision.gameObject.name);
+        //}
     }
 
     private void CalculateScore(string colliderName)
@@ -87,8 +88,8 @@ public class Car : CarController
 
     private void FreezeCar()
     {
-        Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        //Rigidbody2D rb = this.gameObject.GetComponent<Rigidbody2D>();
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
 }

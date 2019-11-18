@@ -66,7 +66,7 @@ namespace Assets.Scripts.Data
             }
         }
 
-        public NeuralNetwork(DNA dna)
+        public void ModifyDNA(DNA dna)
         {
             WeightsOfAllLayer = dna.WeightsOfAllLayer;
             OutputOfNeuronsInAllLayer = new OutputOfNeuronsInAllLayer();
@@ -98,15 +98,34 @@ namespace Assets.Scripts.Data
                 WeightsOfNeuron actualLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer];
                 WeightsOfNeuron nextLayerWeightsOfNeuron = OutputOfNeuronsInAllLayer[indexOfLayer + 1];
 
-                for (int i = 0; i < nextLayerWeightsOfNeuron.Count; i++)
+                //if last layer
+                if (indexOfLayer == OutputOfNeuronsInAllLayer.Count - 2)
                 {
-                    float sum = 0;
-                    for (int j = 0; j < actualLayerWeightsOfNeuron.Count; j++)
+                    for (int i = 0; i < nextLayerWeightsOfNeuron.Count; i++)
                     {
-                        sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
-                    }
+                        float sum = 0;
+                        for (int j = 0; j < actualLayerWeightsOfNeuron.Count; j++)
+                        {
+                            sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
+                        }
 
-                    nextLayerWeightsOfNeuron[i] = Sigmoid(sum);
+                        Debug.Log(sum);
+                        nextLayerWeightsOfNeuron[i] = Sigmoid(sum);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < nextLayerWeightsOfNeuron.Count; i++)
+                    {
+                        float sum = 0;
+                        for (int j = 0; j < actualLayerWeightsOfNeuron.Count; j++)
+                        {
+                            sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
+                        }
+
+                        Debug.Log(sum);
+                        nextLayerWeightsOfNeuron[i] = Mathf.Max(0, sum);
+                    }
                 }
             }
 
@@ -126,7 +145,7 @@ namespace Assets.Scripts.Data
 
         private float Sigmoid(float input)
         {
-            return 1 / (float)(1 + Mathf.Pow(2.71828f, -input));
+            return 1 / (float)(1 + Mathf.Pow(2.71828182845904523536028747135f, -input));
         }
     }
 }
