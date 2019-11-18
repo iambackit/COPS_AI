@@ -24,7 +24,7 @@ namespace Assets.Scripts.Data
         private int _NumberOfLayers = 3; //input layer, 1 hidden layer, output layer
         private int _NumberOfInputs = 5;
         private int _NumberOfOutputs = 2;
-        private int _NumberOfNeuronsInHiddenLayer = 8;
+        private int _NumberOfNeuronsInHiddenLayer = 5;
         #endregion
 
 
@@ -108,8 +108,6 @@ namespace Assets.Scripts.Data
                         {
                             sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
                         }
-
-                        Debug.Log(sum);
                         nextLayerWeightsOfNeuron[i] = Sigmoid(sum);
                     }
                 }
@@ -122,8 +120,6 @@ namespace Assets.Scripts.Data
                         {
                             sum += weightOfActulLayer[j][i] * actualLayerWeightsOfNeuron[j];
                         }
-
-                        Debug.Log(sum);
                         nextLayerWeightsOfNeuron[i] = Mathf.Max(0, sum);
                     }
                 }
