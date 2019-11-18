@@ -38,10 +38,17 @@ public class Car : CarController
     {
         if (_IsAlive)
         {
-            List<float> distances = GetComponent<LaserContainer>().GetDistances();
-            List<float> neuralNetworkOutput = _NeuralNetwork.FeedForward(distances);
+            try
+            {
+                List<float> distances = GetComponent<LaserContainer>().GetDistances();
+                List<float> neuralNetworkOutput = _NeuralNetwork.FeedForward(distances);
 
-            GetComponent<CarController>().Move(neuralNetworkOutput);
+                GetComponent<CarController>().Move(neuralNetworkOutput);
+            }
+            catch(System.Exception e)
+            {
+                int k = 3;
+            }
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
