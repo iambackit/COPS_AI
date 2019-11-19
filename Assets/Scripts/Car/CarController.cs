@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Interfaces;
 
-public class CarController : MonoBehaviour
+public class CarController : MonoBehaviour, IControllable
 {
     #region public
     private float Acceleration = 3;
@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     private Rigidbody2D rb;
     #endregion
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -24,23 +24,13 @@ public class CarController : MonoBehaviour
         float v = 0;
         float h = 0;
 
-        inputs[0] = inputs[0]*2-1;
-        inputs[1] = inputs[1]*2-1;
+        inputs[0] = inputs[0] * 2 - 1;
+        inputs[1] = inputs[1] * 2 - 1;
 
         v = inputs[0];
         h = inputs[1];
-            //if (inputs[0] * 2 > 1f)
-            //    v = 1;
-            //else
-            //    v = -1;
 
-            //if (inputs[1] * 2 > 1f)
-            //    h = 1;
-            //else
-            //    h = -1;
-
-
-            Vector2 speed = transform.up * (v * Acceleration);
+        Vector2 speed = transform.up * (v * Acceleration);
         rb.AddForce(speed);
 
         float direction = Vector2.Dot(rb.velocity, rb.GetRelativeVector(Vector2.up));
@@ -121,4 +111,5 @@ public class CarController : MonoBehaviour
             rb.AddForce(rb.GetRelativeVector(relativeForce));
         }
     }
+
 }
