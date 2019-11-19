@@ -66,7 +66,7 @@ namespace Assets.Scripts.Data
             }
         }
 
-        public void ModifyDNA(DNA dna)
+        public NeuralNetwork(DNA dna)
         {
             WeightsOfAllLayer = dna.WeightsOfAllLayer;
             OutputOfNeuronsInAllLayer = new OutputOfNeuronsInAllLayer();

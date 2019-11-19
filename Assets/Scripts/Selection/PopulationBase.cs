@@ -7,6 +7,7 @@ namespace Assets.Scripts.Selection
     abstract class PopulationBase : MonoBehaviour, ISelectable
     {
         public GameObject Prefab { get; set; }
+        public GameObject Target { get; set; }
         public Vector2 Position { get; set; }
         public Quaternion Rotation { get; set; }
         public int Population { get; set; }
@@ -18,7 +19,7 @@ namespace Assets.Scripts.Selection
             for (int i = 0; i < Population; i++)
             {
                 GameObject gameObjectCar = Instantiate(Prefab, Position, Rotation);
-                gameObjectCar.GetComponent<Car>().Initialize();
+                gameObjectCar.GetComponent<Car>().Initialize(Target);
                 _ActualGeneration.Add(gameObjectCar);
             }
         }

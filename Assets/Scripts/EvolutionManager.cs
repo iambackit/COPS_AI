@@ -5,13 +5,17 @@ using UnityEngine;
 using Assets.Scripts.Selection;
 using Assets.Scripts.Interfaces;
 
-class EvolutionGenerator : MonoBehaviour
+class EvolutionManager : MonoBehaviour
 {
     #region properties
+    [Header("Car prefabs")]
+    public GameObject Police;
+    public GameObject Target;
+
+    [Header("Genetic algorithm")]
     public SelectionName SelectionName;
-    public GameObject Prefab;
     [Range(1,50)]public int Population = 1;
-    public Vector2 Position = new Vector2(0, 0);
+    public Vector2 AICarPosition = new Vector2(0, 0);
 
     private Quaternion _Rotation = Quaternion.Euler(0, 0, 0);
     private ISelectable _Selection;
@@ -20,10 +24,11 @@ class EvolutionGenerator : MonoBehaviour
     private void Start()
     {
         _Selection = SelectionFactory.Selection(SelectionName);
-        _Selection.Prefab = this.Prefab;
-        _Selection.Position = this.Position;
+        _Selection.Prefab = this.Police;
+        _Selection.Position = this.AICarPosition;
         _Selection.Rotation = this._Rotation;
         _Selection.Population = this.Population;
+        _Selection.Target = this.Target;
         _Selection.CreateFirstGeneration();
     }
 

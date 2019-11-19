@@ -42,7 +42,7 @@ namespace Assets.Scripts.Selection
                 DNA crossOver = first.CrossOver(first, second);
                 crossOver.Mutate();
                 GameObject newCar = Instantiate(Prefab, Position, Rotation);
-                newCar.GetComponent<Car>().Initialize(crossOver);
+                newCar.GetComponent<Car>().Initialize(crossOver,Target);
                 nextGeneration.Add(newCar);
             }
         }
