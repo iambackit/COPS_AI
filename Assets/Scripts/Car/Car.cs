@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
@@ -15,6 +15,8 @@ public class Car : MonoBehaviour
     public DNA DNA { get; set; }
     public bool Punished { get; private set; }
     public int Score { get; set; }
+    public delegate void CarEventHandler(object source, EventArgs args);
+    public event CarEventHandler CarEvent;
 
     private NeuralNetwork _NeuralNetwork;
     private bool _IsAlive = true;
@@ -26,7 +28,7 @@ public class Car : MonoBehaviour
     IControllable _Controller;
     #endregion
 
-    public void Start()
+    public void Awake()
     {
         _Controller = gameObject.AddComponent<CarController>();
     }
@@ -45,16 +47,21 @@ public class Car : MonoBehaviour
         _NeuralNetwork = new NeuralNetwork(dna);
         DNA = dna;
         _IsAlive = true;
-        //_Target = target;
     }
 
-    void Update()
+    protected virtual void OnCarEvent()
+    {
+        if (CarEvent != null)
+            CarEvent(this, EventArgs.Empty);
+    }
+
+    private void Update()
     {
         _Distances = GetComponent<LaserContainer>().GetDistances();
         _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_Distances);
         _Controller.Move(_NeuralNeetworkOutput);
-        //GetComponent<CarController>().Move(_NeuralNeetworkOutput);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
@@ -62,6 +69,8 @@ public class Car : MonoBehaviour
             _IsAlive = false;
             FreezeCar();
             ChangeAlphaAndSortingOrder();
+            CalculateScore();
+            OnCarEvent();
         }
     }
 
@@ -86,8 +95,11 @@ public class Car : MonoBehaviour
         GetComponent<SpriteRenderer>().sortingOrder = 0;
     }
 
-    public void Move(OutputOfNeuronsInSingleLayer inputs)
+    private void CalculateScore()
     {
-        throw new System.NotImplementedException();
+        float distance = Vector2.Distance(_TargetPosition, this.transform.position);
+        distance *= distance;
+        Score = (int)distance;
     }
+
 }

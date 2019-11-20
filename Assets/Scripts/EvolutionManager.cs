@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using UnityEngine;
 
 using Assets.Scripts.Selection;
@@ -30,10 +29,13 @@ class EvolutionManager : MonoBehaviour
         _Selection.Population = this.Population;
         _Selection.Target = this.Target;
         _Selection.CreateFirstGeneration();
+        _Selection.PopulationReduced += OnPopulationReduced;
     }
 
-    private void CreateGeneration()
+    private void OnPopulationReduced(object source, PopulationEventArgs e)
     {
-        _Selection.CreateNewGeneration();
+        Debug.Log(e.ActualPopulation);
+        if (e.ActualPopulation==0)
+            _Selection.CreateNewGeneration();
     }
 }

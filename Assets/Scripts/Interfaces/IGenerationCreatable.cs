@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 namespace Assets.Scripts.Interfaces
 {
@@ -7,5 +6,6 @@ namespace Assets.Scripts.Interfaces
     {
         void CreateFirstGeneration();
         void CreateNewGeneration();
+        void ReducePopulation(object source, EventArgs eventArgs);
     }
 }

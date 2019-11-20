@@ -8,6 +8,7 @@ namespace Assets.Scripts.Selection
 {
     class ChanceByScoreSelector : PopulationBase
     {
+
         public override void CreateNewGeneration()
         {
             List<GameObject> nextGeneration = new List<GameObject>();
@@ -16,43 +17,46 @@ namespace Assets.Scripts.Selection
             int[] indexProbability = CreateIndexProbabilities();
             CreateNextGeneration(indexProbability, nextGeneration);
             DestroyPreviousGenerationCars();
-            _ActualGeneration = nextGeneration;
+            ActualGeneration = nextGeneration;
+            ActualPopulation = this.Population;
         }
 
         #region private
         private void DestroyPreviousGenerationCars()
         {
-            for (int i = 0; i < _ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualGeneration.Count; i++)
             {
-                Destroy(_ActualGeneration[i].gameObject);
+                Destroy(ActualGeneration[i].gameObject);
             }
         }
 
         private void CreateNextGeneration(int[] indexProbability, List<GameObject> nextGeneration)
         {
-            int totalScore = _ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            int totalScore = ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
 
             for (int i = 0; i < this.Population; i++)
             {
                 int firstCarIndex = indexProbability[Random.Range(0, totalScore - 1)];
                 int secondCarIndex = indexProbability[Random.Range(0, totalScore - 1)];
 
-                DNA first = _ActualGeneration[firstCarIndex].GetComponent<Car>().DNA;
-                DNA second = _ActualGeneration[secondCarIndex].GetComponent<Car>().DNA;
+                DNA first = ActualGeneration[firstCarIndex].GetComponent<Car>().DNA;
+                DNA second = ActualGeneration[secondCarIndex].GetComponent<Car>().DNA;
                 DNA crossOver = first.CrossOver(first, second);
                 crossOver.Mutate();
                 GameObject newCar = Instantiate(Prefab, Position, Rotation);
-                newCar.GetComponent<Car>().Initialize(crossOver,Target);
+                Car car = newCar.GetComponent<Car>();
+                car.Initialize(crossOver, Target);
+                car.CarEvent += ReducePopulation;
                 nextGeneration.Add(newCar);
             }
         }
 
         private void IgnorePunishedCars()
         {
-            for (int i = 0; i < _ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualGeneration.Count; i++)
             {
-                if (_ActualGeneration[i].GetComponent<Car>().Punished)
-                    Destroy(_ActualGeneration[i]);
+                if (ActualGeneration[i].GetComponent<Car>().Punished)
+                    Destroy(ActualGeneration[i]);
             }
         }
 
@@ -63,13 +67,13 @@ namespace Assets.Scripts.Selection
          * nth car with xth score will be xth times in the array*/
         private int[] CreateIndexProbabilities()
         {
-            int totalScore = _ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            int totalScore = ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
             int[] indexProbability = new int[totalScore];
             int actIndex = 0;
 
-            for (int i = 0; i < _ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualGeneration.Count; i++)
             {
-                for (int j = 0; j < _ActualGeneration[i].GetComponent<Car>().Score; j++)
+                for (int j = 0; j < ActualGeneration[i].GetComponent<Car>().Score; j++)
                 {
                     indexProbability[actIndex] = i;
                     actIndex++;

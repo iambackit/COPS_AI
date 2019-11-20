@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Selection;
 
 namespace Assets.Scripts.Interfaces
 {
@@ -10,5 +12,7 @@ namespace Assets.Scripts.Interfaces
         Vector2 Position { get; set; }
         Quaternion Rotation { get; set; }
         int Population { get; set; }
+        event EventHandler<PopulationEventArgs> PopulationReduced;
+
     }
 }
