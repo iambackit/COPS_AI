@@ -5,5 +5,6 @@ namespace Assets.Scripts.Interfaces
     interface IControllable
     {
         void Move(List<float> inputs);
+        bool IsControlledByPlayer { get; set; }
     }
 }

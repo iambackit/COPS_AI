@@ -12,6 +12,8 @@ using OutputOfNeuronsInAllLayer = System.Collections.Generic.List<System.Collect
 public class Car : MonoBehaviour
 {
     #region properties
+    public bool IsControlledByPlayer = false;
+
     public DNA DNA { get; set; }
     public bool Punished { get; private set; }
     public int Score { get; set; }
@@ -31,6 +33,7 @@ public class Car : MonoBehaviour
     public void Awake()
     {
         _Controller = gameObject.AddComponent<CarController>();
+        _Controller.IsControlledByPlayer = IsControlledByPlayer;
     }
 
     public void Initialize(GameObject target)
@@ -97,9 +100,10 @@ public class Car : MonoBehaviour
 
     private void CalculateScore()
     {
-        float distance = Vector2.Distance(_TargetPosition, this.transform.position);
-        distance *= distance;
-        Score = (int)distance;
+        //float distance = Vector2.Distance(_TargetPosition, this.transform.position);
+        //distance *= distance;
+        //Score = (int)distance;
+        Score = 1;
     }
 
 }

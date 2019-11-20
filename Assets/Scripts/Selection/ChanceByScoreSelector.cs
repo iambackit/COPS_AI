@@ -19,6 +19,7 @@ namespace Assets.Scripts.Selection
             DestroyPreviousGenerationCars();
             ActualGeneration = nextGeneration;
             ActualPopulation = this.Population;
+
         }
 
         #region private
