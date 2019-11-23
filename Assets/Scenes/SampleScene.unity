@@ -672,9 +672,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.76
-  m_Text: 'POPULATION:
-
-    MUTATION RATE:'
+  m_Text: 
 --- !u!222 &590881661
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -819,10 +817,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Police: {fileID: 8635105833381254396, guid: 8dd269426ca3b1a409c76f2296a4e119, type: 3}
   Target: {fileID: 342296989}
-  SelectionName: 0
   Population: 50
   TimeToLearn: 5
   InitPoints: {fileID: 484281782}
+  Current: {fileID: 1773622997}
+  Best: {fileID: 1199799568}
+  Basic: {fileID: 590881660}
 --- !u!4 &908224361
 Transform:
   m_ObjectHideFlags: 0
@@ -982,9 +982,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.76
-  m_Text: 'GENERATION:
-
-    FITNESS:'
+  m_Text: 
 --- !u!222 &1199799569
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1787,11 +1785,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.76
-  m_Text: 'GENERATION:
-
-    CARS ALIVE:
-
-    FITNESS:'
+  m_Text: 
 --- !u!222 &1773622998
 CanvasRenderer:
   m_ObjectHideFlags: 0
