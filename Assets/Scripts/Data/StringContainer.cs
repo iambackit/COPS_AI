@@ -12,14 +12,13 @@ namespace Assets.Scripts.Data
         public static readonly string TagScore = "Score";
         public static readonly string TagMap = "Map";
 
-        public static readonly string Generation = "Generation: ";
-        public static readonly string Population = "Population: ";
-        public static readonly string CurrentPopulation = "Current population: ";
+        #region statistics
+        public static readonly string Generation = "GENERATION: ";
+        public static readonly string CarsAlive = "CARS ALIVE: ";
+        public static readonly string Fitness = "FITNESS: ";
 
-        public static readonly string BestScore = "Best score: ";
-        public static readonly string AverageScore = "Actual average score: ";
-        public static readonly string BestAverageScore = "Best generation average score: ";
-        public static readonly string BestAverageScoreIndex = "Best generation index: ";
-        public static readonly string MutationRate = "Mutation rate: 2.5%";
+        public static readonly string Population = "POPULATION: ";
+        public static readonly string MutationRate = "MUTATION RATE: ";
+        #endregion
     }
 }
