@@ -27,7 +27,7 @@ namespace Assets.Scripts.Selection
         #region private
         private void KillAllCars()
         {
-            for (int i = 0;i<ActualGeneration.Count;i++)
+            for (int i = 0; i < ActualGeneration.Count; i++)
             {
                 if (ActualGeneration[i].GetComponent<Car>().IsAlive)
                 {
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Selection
 
         private void PrintScores()
         {
-            for (int i = 0;i<ActualGeneration.Count;i++)
+            for (int i = 0; i < ActualGeneration.Count; i++)
             {
                 Debug.Log(ActualGeneration[i].GetComponent<Car>().Score);
             }
@@ -65,7 +65,9 @@ namespace Assets.Scripts.Selection
                 DNA second = ActualGeneration[secondCarIndex].GetComponent<Car>().DNA;
                 DNA crossOver = first.CrossOver(first, second);
                 crossOver.Mutate();
-                GameObject newCar = Instantiate(Prefab, Position, Rotation);
+
+                int randomPosition = UnityEngine.Random.Range(0, Positions.Count);
+                GameObject newCar = Instantiate(Prefab, Positions[randomPosition], Rotation);
                 Car car = newCar.GetComponent<Car>();
                 car.Initialize(crossOver, Target);
                 car.CarEvent += ReducePopulation;

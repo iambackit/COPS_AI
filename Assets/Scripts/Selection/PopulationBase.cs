@@ -9,18 +9,13 @@ namespace Assets.Scripts.Selection
     {
         public GameObject Prefab { get; set; }
         public GameObject Target { get; set; }
-        public Vector2 Position { get; set; }
+        public List<Vector2> Positions { get; set; }
         public Quaternion Rotation { get; set; }
         public int Population { get; set; }
         public List<GameObject> ActualGeneration { get; set; }
         public abstract void CreateNewGeneration();
         public int ActualPopulation;
-
-
-        //public delegate void EventHandler(object source, EventArgs args);
-        //public event System.EventHandler PopulationReduced;
         public event EventHandler<PopulationEventArgs> PopulationReduced;
-
 
         public void CreateFirstGeneration()
         {
@@ -29,7 +24,8 @@ namespace Assets.Scripts.Selection
 
             for (int i = 0; i < Population; i++)
             {
-                GameObject gameObjectCar = Instantiate(Prefab, Position, Rotation);
+                int randomPosition = UnityEngine.Random.Range(0, Positions.Count);
+                GameObject gameObjectCar = Instantiate(Prefab, Positions[randomPosition], Rotation);
                 Car car = gameObjectCar.GetComponent<Car>();
                 car.Initialize(Target);
                 car.CarEvent += ReducePopulation;
