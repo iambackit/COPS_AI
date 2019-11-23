@@ -11,9 +11,9 @@ namespace Assets.Scripts.Selection
             switch(selection)
             {
                 case SelectionName.ChanceByScore:
-                    {
-                        return new ChanceByScoreSelector();
-                    }
+                    return new ChanceByScoreSelector();
+                case SelectionName.BestSeven:
+                    return new BestSeven();
                 default:
                     throw new MissingComponentException();
             }

@@ -34,8 +34,12 @@ class EvolutionManager : MonoBehaviour
 
     private void OnPopulationReduced(object source, PopulationEventArgs e)
     {
-        Debug.Log(e.ActualPopulation);
         if (e.ActualPopulation==0)
             _Selection.CreateNewGeneration();
+    }
+
+    public void NextGenButton()
+    {
+        _Selection.CreateNewGeneration();
     }
 }

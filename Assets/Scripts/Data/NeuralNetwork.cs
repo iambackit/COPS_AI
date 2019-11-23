@@ -22,9 +22,9 @@ namespace Assets.Scripts.Data
 
         #region private
         private int _NumberOfLayers = 3; //input layer, 1 hidden layer, output layer
-        private int _NumberOfInputs = 5;
+        private int _NumberOfInputs = 7;
         private int _NumberOfOutputs = 2;
-        private int _NumberOfNeuronsInHiddenLayer = 5;
+        private int _NumberOfNeuronsInHiddenLayer = 8;
         #endregion
 
 
@@ -87,7 +87,7 @@ namespace Assets.Scripts.Data
 
         public List<float> FeedForward(List<float> distances)
         {
-            for (int i = 0; i < distances.Count; i++)
+            for (int i = 0; i < _NumberOfInputs; i++)
                 OutputOfNeuronsInAllLayer[0][i] = distances[i];
 
 

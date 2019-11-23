@@ -15,14 +15,14 @@ public class Car : MonoBehaviour
     public bool IsControlledByPlayer = false;
 
     public DNA DNA { get; set; }
-    public bool Punished { get; private set; }
+    public bool IsAlive { get; private set; }
     public int Score { get; set; }
     public delegate void CarEventHandler(object source, EventArgs args);
     public event CarEventHandler CarEvent;
 
     private NeuralNetwork _NeuralNetwork;
-    private bool _IsAlive = true;
     private Vector2 _TargetPosition;
+    private float _StartDistance;
 
     private List<float> _Distances;
     private List<float> _NeuralNeetworkOutput;
@@ -40,16 +40,26 @@ public class Car : MonoBehaviour
     {
         _NeuralNetwork = new NeuralNetwork();
         DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
-        _IsAlive = true;
+        IsAlive = true;
         _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
-        Debug.Log(_TargetPosition);
+        _StartDistance = Vector2.Distance(transform.position, _TargetPosition);
     }
 
     public void Initialize(DNA dna, GameObject target)
     {
         _NeuralNetwork = new NeuralNetwork(dna);
         DNA = dna;
-        _IsAlive = true;
+        IsAlive = true;
+        _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
+        _StartDistance = Vector2.Distance(transform.position, _TargetPosition);
+    }
+
+    public void Kill()
+    {
+        IsAlive = false;
+        FreezeCar();
+        ChangeAlphaAndSortingOrder();
+        CalculateScore();
     }
 
     protected virtual void OnCarEvent()
@@ -60,31 +70,34 @@ public class Car : MonoBehaviour
 
     private void Update()
     {
-        _Distances = GetComponent<LaserContainer>().GetDistances();
-        _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_Distances);
-        _Controller.Move(_NeuralNeetworkOutput);
+        if (!IsControlledByPlayer)
+        {
+            _Distances = GetComponent<LaserContainer>().GetDistances();
+            _Distances.Add(_TargetPosition.x);
+            _Distances.Add(_TargetPosition.y);
+            _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_Distances);
+            _Controller.Move(_NeuralNeetworkOutput);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_IsAlive && collision.gameObject.tag == StringContainer.TagMap)
+        if (IsControlledByPlayer)
         {
-            _IsAlive = false;
-            FreezeCar();
-            ChangeAlphaAndSortingOrder();
-            CalculateScore();
+            if (IsAlive)
+                Kill();
+        }
+        else if (IsAlive && collision.gameObject.tag == StringContainer.TagMap)
+        {
+            Kill();
             OnCarEvent();
         }
+        else if (IsAlive && collision.gameObject.tag == StringContainer.Player)
+        {
+            Kill();
+            Score += 100;
+        }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //if (_IsAlive && collision.gameObject.tag == StringContainer.TagScore)
-        //{
-        //    CalculateScore(collision.gameObject.name);
-        //}
-    }
-
 
     private void FreezeCar()
     {
@@ -100,10 +113,19 @@ public class Car : MonoBehaviour
 
     private void CalculateScore()
     {
-        //float distance = Vector2.Distance(_TargetPosition, this.transform.position);
-        //distance *= distance;
-        //Score = (int)distance;
-        Score = 1;
+        float distance = Vector2.Distance(_TargetPosition, this.transform.position);
+        float tmp = _StartDistance - distance;
+
+        if (tmp < 0)
+        {
+            Score = 1;
+        }
+        else
+        {
+            tmp *= tmp;
+            Score = (int)tmp;
+        }
+        
     }
 
 }

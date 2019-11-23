@@ -8,6 +8,7 @@ namespace Assets.Scripts.Data
 {
     class StringContainer
     {
+        public static readonly string Player = "Player";
         public static readonly string TagScore = "Score";
         public static readonly string TagMap = "Map";
 

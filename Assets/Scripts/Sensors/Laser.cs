@@ -29,7 +29,7 @@ public class Laser : MonoBehaviour, IDistanceMeasurable
     {
         _StartPosition = this.transform.position;
         _EndPosition = (Vector2)this.transform.position + (Vector2)this.transform.up * _LaserLength;
-        RaycastHit2D collisonPoint = Physics2D.Raycast(_StartPosition, _EndPosition - _StartPosition, 100, _LayerMask);
+        RaycastHit2D collisonPoint = Physics2D.Raycast(_StartPosition, _EndPosition - _StartPosition, 5, _LayerMask);
 
         if (collisonPoint.collider != null)
         {

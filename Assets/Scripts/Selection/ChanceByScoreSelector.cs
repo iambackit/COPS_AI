@@ -13,6 +13,8 @@ namespace Assets.Scripts.Selection
         {
             List<GameObject> nextGeneration = new List<GameObject>();
 
+            KillAllCars();
+
             IgnorePunishedCars();
             int[] indexProbability = CreateIndexProbabilities();
             CreateNextGeneration(indexProbability, nextGeneration);
@@ -23,6 +25,24 @@ namespace Assets.Scripts.Selection
         }
 
         #region private
+        private void KillAllCars()
+        {
+            for (int i = 0;i<ActualGeneration.Count;i++)
+            {
+                if (ActualGeneration[i].GetComponent<Car>().IsAlive)
+                {
+                    ActualGeneration[i].GetComponent<Car>().Kill();
+                }
+            }
+        }
+
+        private void PrintScores()
+        {
+            for (int i = 0;i<ActualGeneration.Count;i++)
+            {
+                Debug.Log(ActualGeneration[i].GetComponent<Car>().Score);
+            }
+        }
         private void DestroyPreviousGenerationCars()
         {
             for (int i = 0; i < ActualGeneration.Count; i++)
@@ -34,6 +54,7 @@ namespace Assets.Scripts.Selection
         private void CreateNextGeneration(int[] indexProbability, List<GameObject> nextGeneration)
         {
             int totalScore = ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            PrintScores();
 
             for (int i = 0; i < this.Population; i++)
             {
@@ -56,7 +77,7 @@ namespace Assets.Scripts.Selection
         {
             for (int i = 0; i < ActualGeneration.Count; i++)
             {
-                if (ActualGeneration[i].GetComponent<Car>().Punished)
+                if (ActualGeneration[i].GetComponent<Car>().Score == 0)
                     Destroy(ActualGeneration[i]);
             }
         }
@@ -83,6 +104,7 @@ namespace Assets.Scripts.Selection
 
             return indexProbability;
         }
+
         #endregion
     }
 

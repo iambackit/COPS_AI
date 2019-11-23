@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8204187680514271879}
   - component: {fileID: 5636894650599996787}
   m_Layer: 9
-  m_Name: police_car
+  m_Name: policecarprefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
