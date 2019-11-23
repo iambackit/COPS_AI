@@ -455,7 +455,7 @@ MonoBehaviour:
   Police: {fileID: 8635105833381254396, guid: 8dd269426ca3b1a409c76f2296a4e119, type: 3}
   Target: {fileID: 342296989}
   SelectionName: 0
-  Population: 30
+  Population: 50
   AICarPosition: {x: 8.7, y: -0.8}
 --- !u!4 &908224361
 Transform:

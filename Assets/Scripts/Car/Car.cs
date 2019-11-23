@@ -23,8 +23,9 @@ public class Car : MonoBehaviour
     private NeuralNetwork _NeuralNetwork;
     private Vector2 _TargetPosition;
     private float _StartDistance;
+    private GameObject _Target;
 
-    private List<float> _Distances;
+    private List<float> _NeuralNetworkInputs;
     private List<float> _NeuralNeetworkOutput;
 
     IControllable _Controller;
@@ -40,16 +41,20 @@ public class Car : MonoBehaviour
     {
         _NeuralNetwork = new NeuralNetwork();
         DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
-        IsAlive = true;
-        _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
-        _StartDistance = Vector2.Distance(transform.position, _TargetPosition);
+        SetParameters(target);
     }
 
     public void Initialize(DNA dna, GameObject target)
     {
         _NeuralNetwork = new NeuralNetwork(dna);
         DNA = dna;
+        SetParameters(target);
+    }
+
+    private void SetParameters(GameObject target)
+    {
         IsAlive = true;
+        _Target = target;
         _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
         _StartDistance = Vector2.Distance(transform.position, _TargetPosition);
     }
@@ -72,10 +77,13 @@ public class Car : MonoBehaviour
     {
         if (!IsControlledByPlayer)
         {
-            _Distances = GetComponent<LaserContainer>().GetDistances();
-            _Distances.Add(_TargetPosition.x);
-            _Distances.Add(_TargetPosition.y);
-            _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_Distances);
+            _TargetPosition = new Vector2(_Target.transform.position.x, _Target.transform.position.y);
+            _NeuralNetworkInputs = GetComponent<LaserContainer>().GetDistances();
+            _NeuralNetworkInputs.Add(_TargetPosition.x);
+            _NeuralNetworkInputs.Add(_TargetPosition.y);
+            _NeuralNetworkInputs.Add(transform.position.x);
+            _NeuralNetworkInputs.Add(transform.position.y);
+            _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_NeuralNetworkInputs);
             _Controller.Move(_NeuralNeetworkOutput);
         }
     }
