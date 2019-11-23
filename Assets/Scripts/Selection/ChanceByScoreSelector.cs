@@ -29,9 +29,11 @@ namespace Assets.Scripts.Selection
         {
             for (int i = 0; i < ActualGeneration.Count; i++)
             {
-                if (ActualGeneration[i].GetComponent<Car>().IsAlive)
+                Car actualCar = ActualGeneration[i].GetComponent<Car>();
+
+                if (actualCar.IsAlive)
                 {
-                    ActualGeneration[i].GetComponent<Car>().Kill();
+                    actualCar.Kill();
                 }
             }
         }
