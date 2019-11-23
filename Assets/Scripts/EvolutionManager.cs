@@ -14,11 +14,16 @@ class EvolutionManager : MonoBehaviour
 
     [Header("Genetic algorithm")]
     public SelectionName SelectionName;
-    [Range(1,50)]public int Population = 1;
+    [Range(1, 50)] public int Population = 1;
+    [Range(3, 50)] public int TimeToLearn = 10;
+
+
+    [Header("Car init parent")]
     public GameObject InitPoints;
 
     private Quaternion _Rotation = Quaternion.Euler(0, 0, 0);
     private ISelectable _Selection;
+    private float timer = 0.0f;
     #endregion
 
     private void Awake()
@@ -35,7 +40,18 @@ class EvolutionManager : MonoBehaviour
 
     public void NextGenButton()
     {
+        timer = 0;
         _Selection.CreateNewGeneration();
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= TimeToLearn)
+        {
+            _Selection.CreateNewGeneration();
+            timer = 0;
+        }
     }
 
     private List<Vector2> GetChildrenPositions()
@@ -52,8 +68,11 @@ class EvolutionManager : MonoBehaviour
 
     private void OnPopulationReduced(object source, PopulationEventArgs e)
     {
-        if (e.ActualPopulation==0)
+        if (e.ActualPopulation == 0)
+        {
+            timer = 0;
             _Selection.CreateNewGeneration();
+        }
     }
 
     
