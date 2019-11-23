@@ -130,7 +130,7 @@ public class Car : MonoBehaviour
         }
         else
         {
-            tmp *= tmp;
+            tmp = Mathf.Pow(tmp, 3);
             Score = (int)tmp;
         }
         
