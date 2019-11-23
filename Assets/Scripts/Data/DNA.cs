@@ -12,10 +12,8 @@ namespace Assets.Scripts.Data
     {
         #region public
         public WeightsOfAllLayer WeightsOfAllLayer { get; private set; }
-        #endregion
 
-        #region private
-        private float _Probability = 0.015f;
+        public static readonly float MutationRate = 0.015f;
         #endregion
 
         public DNA(WeightsOfAllLayer weights)
@@ -65,7 +63,7 @@ namespace Assets.Scripts.Data
                     
                     for (int k = 0;k<WeightsOfAllLayer[i][j].Count;k++)
                     {
-                        float value = Random.Range(0f, 1f) < _Probability ? Random.Range(-5f, 5f) : WeightsOfAllLayer[i][j][k];
+                        float value = Random.Range(0f, 1f) < MutationRate ? Random.Range(-5f, 5f) : WeightsOfAllLayer[i][j][k];
                         newWeight[j].Add(value);
                     }
                 }
