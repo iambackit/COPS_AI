@@ -11,25 +11,29 @@ namespace Assets.Scripts.Selection
 
         public override void CreateNewGeneration()
         {
-            List<GameObject> nextGeneration = new List<GameObject>();
+            List<GameObject> nextGenerationCars = new List<GameObject>();
 
             KillAllCars();
+            BestFitness = 1;
 
-            IgnorePunishedCars();
-            int[] indexProbability = CreateIndexProbabilities();
-            CreateNextGeneration(indexProbability, nextGeneration);
-            DestroyPreviousGenerationCars();
-            ActualGeneration = nextGeneration;
+            ActualGeneration++;
             ActualPopulation = this.Population;
 
+            DestroyZeroScoreCars();
+
+            int[] indexProbability = CreateIndexProbabilities();
+            CreatenextGenerationCars(indexProbability, nextGenerationCars);
+
+            DestroyPreviousGenerationCars();
+            ActualCars = nextGenerationCars;
         }
 
         #region private
         private void KillAllCars()
         {
-            for (int i = 0; i < ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualCars.Count; i++)
             {
-                Car actualCar = ActualGeneration[i].GetComponent<Car>();
+                Car actualCar = ActualCars[i].GetComponent<Car>();
 
                 if (actualCar.IsAlive)
                 {
@@ -40,31 +44,32 @@ namespace Assets.Scripts.Selection
 
         private void PrintScores()
         {
-            for (int i = 0; i < ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualCars.Count; i++)
             {
-                Debug.Log(ActualGeneration[i].GetComponent<Car>().Score);
-            }
-        }
-        private void DestroyPreviousGenerationCars()
-        {
-            for (int i = 0; i < ActualGeneration.Count; i++)
-            {
-                Destroy(ActualGeneration[i].gameObject);
+                Debug.Log(ActualCars[i].GetComponent<Car>().Score);
             }
         }
 
-        private void CreateNextGeneration(int[] indexProbability, List<GameObject> nextGeneration)
+        private void DestroyPreviousGenerationCars()
         {
-            int totalScore = ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
-            PrintScores();
+            for (int i = 0; i < ActualCars.Count; i++)
+            {
+                Destroy(ActualCars[i].gameObject);
+            }
+        }
+
+        private void CreatenextGenerationCars(int[] indexProbability, List<GameObject> nextGenerationCars)
+        {
+            int totalScore = ActualCars.Sum(x => x.GetComponent<Car>().Score);
+            //PrintScores();
 
             for (int i = 0; i < this.Population; i++)
             {
                 int firstCarIndex = indexProbability[Random.Range(0, totalScore - 1)];
                 int secondCarIndex = indexProbability[Random.Range(0, totalScore - 1)];
 
-                DNA first = ActualGeneration[firstCarIndex].GetComponent<Car>().DNA;
-                DNA second = ActualGeneration[secondCarIndex].GetComponent<Car>().DNA;
+                DNA first = ActualCars[firstCarIndex].GetComponent<Car>().DNA;
+                DNA second = ActualCars[secondCarIndex].GetComponent<Car>().DNA;
                 DNA crossOver = first.CrossOver(first, second);
                 crossOver.Mutate();
 
@@ -73,16 +78,16 @@ namespace Assets.Scripts.Selection
                 Car car = newCar.GetComponent<Car>();
                 car.Initialize(crossOver, Target);
                 car.CarEvent += ReducePopulation;
-                nextGeneration.Add(newCar);
+                nextGenerationCars.Add(newCar);
             }
         }
 
-        private void IgnorePunishedCars()
+        private void DestroyZeroScoreCars()
         {
-            for (int i = 0; i < ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualCars.Count; i++)
             {
-                if (ActualGeneration[i].GetComponent<Car>().Score == 0)
-                    Destroy(ActualGeneration[i]);
+                if (ActualCars[i].GetComponent<Car>().Score == 0)
+                    Destroy(ActualCars[i]);
             }
         }
 
@@ -93,13 +98,13 @@ namespace Assets.Scripts.Selection
          * nth car with xth score will be xth times in the array*/
         private int[] CreateIndexProbabilities()
         {
-            int totalScore = ActualGeneration.Sum(x => x.GetComponent<Car>().Score);
+            int totalScore = ActualCars.Sum(x => x.GetComponent<Car>().Score);
             int[] indexProbability = new int[totalScore];
             int actIndex = 0;
 
-            for (int i = 0; i < ActualGeneration.Count; i++)
+            for (int i = 0; i < ActualCars.Count; i++)
             {
-                for (int j = 0; j < ActualGeneration[i].GetComponent<Car>().Score; j++)
+                for (int j = 0; j < ActualCars[i].GetComponent<Car>().Score; j++)
                 {
                     indexProbability[actIndex] = i;
                     actIndex++;
@@ -109,6 +114,22 @@ namespace Assets.Scripts.Selection
             return indexProbability;
         }
 
+        private void FixedUpdate()
+        {
+            SetBestFitness();
+        }
+
+
+        private void SetBestFitness()
+        {
+            foreach (GameObject carGo in ActualCars)
+            {
+                Car car = carGo.GetComponent<Car>();
+
+                if (car.Score > BestFitness)
+                    BestFitness = car.Score;
+            }
+        }
         #endregion
     }
 

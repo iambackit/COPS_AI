@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Interfaces
 {
-    public interface ISelectable : IObjectCreatable,IGenerationCreatable
+    public interface ISelectable : IObjectCreatable,IGenerationCreatable, IStatisticMeasurable
     {
     }
 }
