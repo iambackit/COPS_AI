@@ -8,7 +8,6 @@ namespace Assets.Scripts.Selection
 {
     public enum SelectionName
     {
-        ChanceByScore,
-        BestSeven
+        ChanceByScore
     }
 }
