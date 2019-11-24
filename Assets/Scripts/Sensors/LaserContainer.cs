@@ -5,21 +5,21 @@ using Assets.Scripts.Interfaces;
 public class LaserContainer : MonoBehaviour, ILaserCreatable
 {
     private List<float> _Distances;
-    private List<GameObject> Container;
-    private int LaserCount = 5;
+    private List<GameObject> _Container;
+    private int _LaserCount = 8;
 
     void Start()
     {
         _Distances = new List<float>();
-        Container = new List<GameObject>();
-        GenerateLasers(LaserCount);
+        _Container = new List<GameObject>();
+        GenerateLasers(_LaserCount);
     }
 
     public List<float> GetDistances()
     {
         _Distances.Clear();
 
-        foreach(GameObject laser in Container)
+        foreach(GameObject laser in _Container)
         {
             _Distances.Add(laser.GetComponent<Laser>().Distance);
         }
@@ -29,10 +29,10 @@ public class LaserContainer : MonoBehaviour, ILaserCreatable
 
     public void GenerateLasers(int laserCount)
     {
-        float viewAngle = 180;
+        float viewAngle = 360;
         float normalizeAngle = viewAngle / 2;
         float currentAngle = 0;
-        float angleDifferences = viewAngle / (laserCount - 1);
+        float angleDifferences = viewAngle / (laserCount);
 
         for (int i = 0;i<laserCount;i++)
         {
@@ -46,7 +46,7 @@ public class LaserContainer : MonoBehaviour, ILaserCreatable
             laserGameobject.transform.Rotate(new Vector3(0, 0, currentAngle));
 
             laserGameobject.transform.SetParent(transform);
-            Container.Add(laserGameobject);
+            _Container.Add(laserGameobject);
         }
     }
 
