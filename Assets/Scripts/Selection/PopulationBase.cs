@@ -11,7 +11,7 @@ namespace Assets.Scripts.Selection
         #region init setup
         public GameObject Prefab { get; set; }
         public GameObject Target { get; set; }
-        public List<Vector2> Positions { get; set; }
+        public Vector2 InitPosition { get; set; }
         public Quaternion Rotation { get; set; }
         public int Population { get; set; }
         #endregion
@@ -31,8 +31,9 @@ namespace Assets.Scripts.Selection
 
             for (int i = 0; i < Population; i++)
             {
-                int randomPosition = UnityEngine.Random.Range(0, Positions.Count);
-                GameObject gameObjectCar = Instantiate(Prefab, Positions[randomPosition], Rotation);
+                float xRandom = UnityEngine.Random.Range(InitPosition.x - 1f, InitPosition.x + 1f);
+                float yRandom = UnityEngine.Random.Range(InitPosition.y - 0.5f, InitPosition.y + 0.5f);
+                GameObject gameObjectCar = Instantiate(Prefab, new Vector2(xRandom,yRandom), Rotation);
                 Car car = gameObjectCar.GetComponent<Car>();
                 car.Initialize(Target);
                 car.CarEvent += ReducePopulation;

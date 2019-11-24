@@ -13,6 +13,8 @@ namespace Assets.Scripts.Selection
         {
             List<GameObject> nextGenerationCars = new List<GameObject>();
 
+            PrintScores();
+
             KillAllCars();
             BestFitness = 1;
 
@@ -73,8 +75,9 @@ namespace Assets.Scripts.Selection
                 DNA crossOver = first.CrossOver(first, second);
                 crossOver.Mutate();
 
-                int randomPosition = UnityEngine.Random.Range(0, Positions.Count);
-                GameObject newCar = Instantiate(Prefab, Positions[randomPosition], Rotation);
+                float xRandom = Random.Range(InitPosition.x - 1f, InitPosition.x + 1f); ;
+                float yRandom = Random.Range(InitPosition.y - 0.5f, InitPosition.y + 0.5f);
+                GameObject newCar = Instantiate(Prefab, new Vector2(xRandom, yRandom), Rotation);
                 Car car = newCar.GetComponent<Car>();
                 car.Initialize(crossOver, Target);
                 car.CarEvent += ReducePopulation;

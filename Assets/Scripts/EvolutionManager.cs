@@ -20,14 +20,14 @@ class EvolutionManager : MonoBehaviour
     [Range(3, 50)] public int TimeToLearn = 10;
 
     [Header("Car init parent")]
-    public GameObject InitPoints;
+    public GameObject InitPoint;
 
     [Header("Statistics")]
     public Text Current;
     public Text Best;
     public Text Basic;
 
-    private Quaternion _Rotation = Quaternion.Euler(0, 0, 0);
+    private Quaternion _Rotation = Quaternion.Euler(0, 0, -90);
     private float _Timer = 0.0f;
     private ISelectable _Selection;
     private IStatisticCalculable _StatisticCalculator;
@@ -37,7 +37,7 @@ class EvolutionManager : MonoBehaviour
     {
         _Selection = gameObject.AddComponent<ChanceByScoreSelector>();
         _Selection.Prefab = this.Police;
-        _Selection.Positions = GetChildrenPositions();
+        _Selection.InitPosition = InitPoint.transform.position;
         _Selection.Rotation = this._Rotation;
         _Selection.Population = this.Population;
         _Selection.Target = this.Target;
@@ -77,20 +77,6 @@ class EvolutionManager : MonoBehaviour
         _Timer = 0;
     }
     #endregion
-
-   
-
-    private List<Vector2> GetChildrenPositions()
-    {
-        List<Vector2> positions = new List<Vector2>();
-
-        foreach (Transform child in InitPoints.transform)
-        {
-            positions.Add(child.transform.position);
-        }
-
-        return positions;
-    }
 
     private void OnPopulationReduced(object source, PopulationEventArgs e)
     {

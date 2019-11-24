@@ -9,7 +9,7 @@ namespace Assets.Scripts.Interfaces
     {
         GameObject Prefab { get; set; }
         GameObject Target { get; set; }
-        List<Vector2> Positions { get; set; }
+        Vector2 InitPosition { get; set; }
         Quaternion Rotation { get; set; }
         int Population { get; set; }
         event EventHandler<PopulationEventArgs> PopulationReduced;
