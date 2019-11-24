@@ -22,7 +22,7 @@ namespace Assets.Scripts.Data
 
         #region private
         private int _NumberOfLayers = 3; //input layer, 1 hidden layer, output layer
-        private int _NumberOfInputs = 9;
+        private int _NumberOfInputs = 8;
         private int _NumberOfOutputs = 2;
         private int _NumberOfNeuronsInHiddenLayer = 8;
         #endregion

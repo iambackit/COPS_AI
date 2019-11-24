@@ -22,7 +22,7 @@ public class Car : MonoBehaviour
 
     private NeuralNetwork _NeuralNetwork;
     private Vector2 _TargetPosition;
-    private float _StartDistance;
+    private float _TotalDistance;
     private GameObject _Target;
 
     private List<float> _NeuralNetworkInputs;
@@ -56,7 +56,7 @@ public class Car : MonoBehaviour
         IsAlive = true;
         _Target = target;
         _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
-        _StartDistance = Vector2.Distance(transform.position, _TargetPosition);
+        _TotalDistance = Vector2.Distance(transform.position, _TargetPosition);
     }
 
     public void Kill()
@@ -79,10 +79,7 @@ public class Car : MonoBehaviour
         {
             _TargetPosition = new Vector2(_Target.transform.position.x, _Target.transform.position.y);
             _NeuralNetworkInputs = GetComponent<LaserContainer>().GetDistances();
-            _NeuralNetworkInputs.Add(_TargetPosition.x);
-            _NeuralNetworkInputs.Add(_TargetPosition.y);
-            _NeuralNetworkInputs.Add(transform.position.x);
-            _NeuralNetworkInputs.Add(transform.position.y);
+
             _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_NeuralNetworkInputs);
             _Controller.Move(_NeuralNeetworkOutput);
         }
@@ -90,20 +87,26 @@ public class Car : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (IsControlledByPlayer)
-        {
-            if (IsAlive)
-                Kill();
-        }
-        else if (IsAlive && collision.gameObject.tag == StringContainer.TagMap)
+        if (IsAlive && collision.gameObject.tag == StringContainer.TagMap)
         {
             Kill();
             OnCarEvent();
         }
-        else if (IsAlive && collision.gameObject.tag == StringContainer.Player)
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == StringContainer.TagScore)
         {
-            Kill();
-            Score += 100;
+            if (collision.name == Score.ToString())
+            {
+                Score++;
+            }
+
+            if (collision.name == "21")
+            {
+                int k = 3;
+            }
         }
     }
 
@@ -121,19 +124,7 @@ public class Car : MonoBehaviour
 
     private void CalculateScore()
     {
-        float distance = Vector2.Distance(_TargetPosition, this.transform.position);
-        float tmp = _StartDistance - distance;
-
-        if (tmp < 0)
-        {
-            Score = 1;
-        }
-        else
-        {
-            tmp = Mathf.Pow(tmp, 3);
-            Score = (int)tmp;
-        }
-        
+        Score = Mathf.Max(1, (int)Mathf.Pow(Score, 2));
     }
 
 }
