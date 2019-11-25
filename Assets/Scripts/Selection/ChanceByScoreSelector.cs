@@ -79,7 +79,7 @@ namespace Assets.Scripts.Selection
                 float yRandom = Random.Range(InitPosition.y - 0.5f, InitPosition.y + 0.5f);
                 GameObject newCar = Instantiate(Prefab, new Vector2(xRandom, yRandom), Rotation);
                 Car car = newCar.GetComponent<Car>();
-                car.Initialize(crossOver, Target);
+                car.Initialize(crossOver);
                 car.CarEvent += ReducePopulation;
                 nextGenerationCars.Add(newCar);
             }

@@ -40,13 +40,14 @@ class EvolutionManager : MonoBehaviour
         _Selection.InitPosition = InitPoint.transform.position;
         _Selection.Rotation = this._Rotation;
         _Selection.Population = this.Population;
-        _Selection.Target = this.Target;
         _Selection.CreateFirstGeneration();
         _Selection.PopulationReduced += OnPopulationReduced;
 
         _StatisticCalculator = gameObject.AddComponent<StatisticCalculator>();
         _StatisticCalculator.SetStatisticTexts(Current, Best, Basic);
         _StatisticCalculator.SetNotChanginStats(this.Population, DNA.MutationRate);
+
+        //GameObject.Instantiate(Target,new Vector3(-2.24f,2.06f,0f),Quaternion.EulerAngles(new Vector3(0,0,-15)));
     }
 
     //public void NextGenButton()
@@ -68,6 +69,7 @@ class EvolutionManager : MonoBehaviour
         if (_Timer >= TimeToLearn)
         {
             CreateNewGeneration();
+            //ResetTargetPosition();
         }
     }
 
@@ -83,8 +85,8 @@ class EvolutionManager : MonoBehaviour
         if (e.ActualPopulation == 0)
         {
             CreateNewGeneration();
+            //ResetTargetPosition();
         }
     }
-
 
 }

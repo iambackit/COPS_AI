@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1503531948168513956}
   - component: {fileID: 6089731408991604615}
-  - component: {fileID: 374731500560196182}
-  - component: {fileID: 8104945704899250437}
   - component: {fileID: 8246519639715027447}
   - component: {fileID: 5962384024737546068}
   - component: {fileID: 8946083071227911606}
+  - component: {fileID: 2632968647440980007}
   m_Layer: 0
-  m_Name: badguy
+  m_Name: badguyprefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,31 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &374731500560196182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624031330536726829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d685dc9b83f1ce242afa36d9b0f4c845, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8104945704899250437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3624031330536726829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ab2482a546ede54cb829bb94f346af5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsControlledByPlayer: 0
 --- !u!114 &8246519639715027447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,3 +241,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2632968647440980007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3624031330536726829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c306385315f4549894b218a177660a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsControlledByPlayer: 1

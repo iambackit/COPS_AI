@@ -10,7 +10,6 @@ namespace Assets.Scripts.Selection
     {
         #region init setup
         public GameObject Prefab { get; set; }
-        public GameObject Target { get; set; }
         public Vector2 InitPosition { get; set; }
         public Quaternion Rotation { get; set; }
         public int Population { get; set; }
@@ -35,7 +34,7 @@ namespace Assets.Scripts.Selection
                 float yRandom = UnityEngine.Random.Range(InitPosition.y - 0.5f, InitPosition.y + 0.5f);
                 GameObject gameObjectCar = Instantiate(Prefab, new Vector2(xRandom,yRandom), Rotation);
                 Car car = gameObjectCar.GetComponent<Car>();
-                car.Initialize(Target);
+                car.Initialize();
                 car.CarEvent += ReducePopulation;
                 ActualCars.Add(gameObjectCar);
             }

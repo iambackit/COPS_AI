@@ -21,9 +21,6 @@ public class Car : MonoBehaviour
     public event CarEventHandler CarEvent;
 
     private NeuralNetwork _NeuralNetwork;
-    private Vector2 _TargetPosition;
-    private float _TotalDistance;
-    private GameObject _Target;
 
     private List<float> _NeuralNetworkInputs;
     private List<float> _NeuralNeetworkOutput;
@@ -37,26 +34,17 @@ public class Car : MonoBehaviour
         _Controller.IsControlledByPlayer = IsControlledByPlayer;
     }
 
-    public void Initialize(GameObject target)
+    public void Initialize()
     {
         _NeuralNetwork = new NeuralNetwork();
         DNA = new DNA(_NeuralNetwork.WeightsOfAllLayer);
-        SetParameters(target);
     }
 
-    public void Initialize(DNA dna, GameObject target)
+    public void Initialize(DNA dna)
     {
         _NeuralNetwork = new NeuralNetwork(dna);
         DNA = dna;
-        SetParameters(target);
-    }
-
-    private void SetParameters(GameObject target)
-    {
         IsAlive = true;
-        _Target = target;
-        _TargetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
-        _TotalDistance = Vector2.Distance(transform.position, _TargetPosition);
     }
 
     public void Kill()
@@ -77,9 +65,7 @@ public class Car : MonoBehaviour
     {
         if (!IsControlledByPlayer)
         {
-            _TargetPosition = new Vector2(_Target.transform.position.x, _Target.transform.position.y);
             _NeuralNetworkInputs = GetComponent<LaserContainer>().GetDistances();
-
             _NeuralNeetworkOutput = _NeuralNetwork.FeedForward(_NeuralNetworkInputs);
             _Controller.Move(_NeuralNeetworkOutput);
         }
