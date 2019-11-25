@@ -13,7 +13,7 @@ namespace Assets.Scripts.Data
         #region public
         public WeightsOfAllLayer WeightsOfAllLayer { get; private set; }
 
-        public static readonly float MutationRate = 0.015f;
+        public static readonly float MutationRate = 0.025f;
         #endregion
 
         public DNA(WeightsOfAllLayer weights)
