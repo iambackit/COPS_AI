@@ -1,5 +1,4 @@
 # Table of contents
------------------
 * [Introduction](#introduction)
 * [Installation](#installation)
 * [Product](#product)
@@ -7,8 +6,6 @@
 * [Contact](#contact)
 
 ## Introduction
-------------
-
 The project was made in **Unity 2019.2.12f1**. In this project you can see, how the cars learn a given map. It's based on **genetic algorithm** and **neural network**. Don't worry, if you have never met with this kind of project, it's time to download. 
 
 ![](https://img.shields.io/github/stars/martenq1337/COPS_AI.svg)
